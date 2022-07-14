@@ -1,0 +1,26 @@
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.form-container > .form {
+    min-width: 100%;
+}
+
+.form-heading, .form-content {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.question-number-container {
+    margin: 10px;
+}
+
+.form-content > input {
+    min-width: 30%;
+    line-height: 25px;
+    margin-bottom: 10px;
+}
