@@ -9,10 +9,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/quiz/drag-drop', (req, res) => {
-    let rawData = fs.readFileSync('questions.json');
-    let questions = JSON.parse(rawData)
-    console.log(questions)
-    res.send(questions)
+    let rawQuesData = fs.readFileSync('questions.json');
+    let questions = JSON.parse(rawQuesData);
+    let rawAnswerData = fs.readFileSync('answers.json');
+    let answers = JSON.parse(rawAnswerData);
+    res.send({
+        questionData: questions, 
+        answerData: answers});
 })
 // app.post('/questions', (req, res) => {
 //     // write to questions.json

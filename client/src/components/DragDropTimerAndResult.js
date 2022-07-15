@@ -6,6 +6,10 @@ export default function Timer({maxTime, finished}) {
     const [text, setText] = useState("");
 
     useEffect(() => {
+        setTime(maxTime)
+    }, [maxTime]);
+    
+    useEffect(() => {
         if (time > 0 && timerOn) {
             setTimeout(() => setTime(time - 1), 1000);
         } else if (time == 0){
