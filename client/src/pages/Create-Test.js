@@ -1,13 +1,17 @@
 import React, { useState } from "react";
+import axios from "axios"
 import "../css/create-test.css"
 import FormContent from "../components/CreateTestFormContent"
 
 export default function CreateTest() {
     const [num, setNum] = useState(2);
-    const [data, setData] = useState({
+    const [questionData, setQuestionData] = useState({
         maxTime : 5,
         questions: []
     });
+    const [answerData, setAnswerData] = useState([]);
+    const [hasWrongAnswer, setHasWrongAnswer] = useState(false);
+    const [wrongAnswerList, setWrongAnswersList] = useState(["|"]);
 
     // Display a certain number of question and answer rows
     let rowArray = []
@@ -21,40 +25,80 @@ export default function CreateTest() {
     }
     const rowElements = rowArray.map(row => row)
     
-    //Update "questions" list in the data
+    //Update questionData and answerData
     function updateData(newData) {
         // setTimeout function is used to fix this bug "Cannot update a component from inside the function body of a different component"
-        setTimeout(() => setData(prevData => ({
-            ...prevData,
-            questions: newData
-        })), 1000)
+        setTimeout(() => {
+            setQuestionData(prevData => ({
+                ...prevData,
+                questions: newData.questionList
+            }));
+            setAnswerData(newData.answerList)
+        }, 0)
     }
-    
+
     function handleChange(e) {
         // Set the number of questions according to the user's input
         if(e.target.id === "question-number") {
             setNum(e.target.value);
         }
+
+        //Set the maximum amount of quiz time
         if(e.target.id === "maxTime") {
-            setData(prevData => ({
+            setQuestionData(prevData => ({
                 ...prevData,
                 maxTime: e.target.value
             }));
         }
+
+        // Set the list of wrong answers
+        if (e.target.id === "wrongAnswers") {
+            const str = e.target.value;
+            const list = str.split('&');
+            setWrongAnswersList(list);
+        }
+    }
+
+    // Handle the radio button
+    function handleRadioBtn(e) {
+        if (e.target.value === "yes") {
+            setHasWrongAnswer(true)
+        } else {
+            setHasWrongAnswer(false);
+        }
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
         
+        if (wrongAnswerList[0] !== "|") {
+            for (let i = 0; i < wrongAnswerList.length; i++) {
+                answerData[parseInt(num) + i] = {
+                    id: parseInt(num) + i + 1,
+                    matched: false,
+                    answer: wrongAnswerList[i]
+                };
+            };
+            
+        }
+        
+        const dataToSend = [
+            {
+                maxTime: questionData.maxTime * 60,
+                questions: questionData.questions
+            },
+            answerData];
+        axios.post("http://localhost:8000/create-test", dataToSend ).then(res => console.log(res))
+        .catch(err => console.log(err))
     }
 
-    function handleSubmit() {
-
-    }
-
-    
+    // console.log(num);
 
     return (
         <div className="test">
             <h2>Tạo đề kiểm tra (Quiz)</h2>
             <div className="form-container">
-                <form className="test-form" onSubmit={handleSubmit}>
+                <form className="test-form" >
                     <div className="question-number-container">
                         <label>Số câu hỏi: </label>
                         <input 
@@ -77,7 +121,9 @@ export default function CreateTest() {
                             id="maxTime"
                             name="maxTime"
                             onChange={handleChange}
-                            placeholder={ (data.maxTime / 60 >=1) ? (data.maxTime / 60) : (data.maxTime)}
+                            placeholder={ (questionData.maxTime / 60 >=1)
+                                ? (questionData.maxTime / 60) 
+                                : (questionData.maxTime)}
                             required/>
                         <span> phút</span>
                     </div>
@@ -88,9 +134,44 @@ export default function CreateTest() {
 
                     {rowElements}
                     
-                    <input type="submit" value="Tạo đề thi" />
+                    
                     
                 </form>
+
+                <div className="wrong-answers-container">
+                    <span>Bạn có muốn thêm các đáp án sai để tạo phương án nhiễu? </span>
+                    <div className="radio-btn-box">
+                        <input 
+                            type="radio"
+                            className="radio-btn" 
+                            value="yes"
+                            checked={hasWrongAnswer}
+                            onChange={handleRadioBtn}/> Có
+                        <input 
+                            type="radio"
+                            className="radio-btn" 
+                            value="no"
+                            checked={!hasWrongAnswer}
+                            onChange={handleRadioBtn}/> Không
+                    </div>
+                    <div 
+                        className="wrong-answers-box"
+                        style={{display: hasWrongAnswer ? "" : "none"}}>
+                            <span>Lưu ý: </span>Ngăn cách các đáp án sai bằng dấu &. VD: time&get&mine. 
+                        <br/>
+                        <input 
+                            className="wrong-answers"
+                            id="wrongAnswers"
+                            placeholder="time&get&mine"
+                            onChange={handleChange}/>
+                    </div>
+                    
+                </div>
+
+                <input 
+                    type="button" 
+                    value="Tạo đề thi" 
+                    onClick={handleSubmit}/>
             </div>
         </div>
     )

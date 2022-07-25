@@ -5,18 +5,17 @@ export default function Timer({maxTime, finished}) {
     const [timerOn, setTimerOn] = useState(true);
     const [text, setText] = useState("");
 
+    // Update the max time after getting data from backend
     useEffect(() => {
         setTime(maxTime)
     }, [maxTime]);
-    
-    useEffect(() => {
-        if (time > 0 && timerOn) {
-            setTimeout(() => setTime(time - 1), 1000);
-        } else if (time == 0){
-            alert("Hết giờ!")
-        }
-    }, [time]);
+
+    // Count down time
+    if (time > 0 && timerOn) {
+        setTimeout(() => setTime(time - 1), 1000);
+    }
         
+    // Evaluate grade based on the actual time doing quiz and the total given time
     const handleFinish = () => {
         setTimerOn(false);
         if (time/maxTime > 0.89) {
@@ -33,11 +32,10 @@ export default function Timer({maxTime, finished}) {
     return (
         <>
             <div className="timer">Thời gian: 
-                <span className="timer highlight"> {time}</span> giây
-            </div>
-            <div>
-            <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
-            <button className="finish" onClick={handleFinish} style={{display: finished ? "" : "none"}}>Hoàn thành</button>
+                <span className="highlight"> {time}</span> giây
+                <br/>
+                <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
+                <button className="finish" onClick={handleFinish} style={{display: finished ? "" : "none"}}>Hoàn thành</button>
             </div>
 
             <div
@@ -47,8 +45,6 @@ export default function Timer({maxTime, finished}) {
                     <h2>Số điểm đạt được: <span className="highlight">{(time/maxTime).toFixed(2) * 100}</span> / 100</h2>
                     <div>{text}</div>
             </div>
-
-            <div className="alert"></div>
         </>
         
     )

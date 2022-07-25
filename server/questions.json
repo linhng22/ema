@@ -1,15 +1,45 @@
 {
-    "maxTime" : 30,
-    "questions" : [
-        {
-            "id": 1,
-            "question": "Chó",
-            "answer": "Dog"
-        },
-        {
-            "id": 2,
-            "question": "Mèo",
-            "answer": "Cat"
-        }
-    ]
+  "maxTime": 240,
+  "questions": [
+    {
+      "id": 1,
+      "question": "sách"
+    },
+    {
+      "id": 2,
+      "question": "bút chì"
+    },
+    {
+      "id": 3,
+      "question": "ba lô / cặp sách"
+    },
+    {
+      "id": 4,
+      "question": "cục tẩy"
+    },
+    {
+      "id": 5,
+      "question": "bút (bút mực, bút bi)"
+    },
+    {
+      "id": 6,
+      "question": "máy tính xách tay"
+    },
+    {
+      "id": 7,
+      "question": "thước kẻ"
+    },
+    {
+      "id": 8,
+      "question": "bút sáp màu"
+    },
+    {
+      "id": 9,
+      "question": "từ điển"
+    },
+    {
+      "id": 10,
+      "question": "vở"
+    }
+  ]
 }

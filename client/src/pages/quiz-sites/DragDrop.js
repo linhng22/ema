@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import axios from "axios"
 import "../../css/drag-drop.css"
 import Question from "../../components/DragDropQuestion"
@@ -6,39 +6,39 @@ import Answer from "../../components/DragDropAnswer"
 import TimerAndResult from "../../components/DragDropTimerAndResult"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
-var loaded = false
+var loaded = false;
+// var shuffled = false;
 export default function DragDrop() {
     const [questionData, setQuestionData] = useState({
-        maxTime: 20,
+        maxTime: -1,
         questions: []
     });
     const [answerData, setAnswerData] = useState([]);
 
+    // Get data from backend and shuffle the answer data once
     if (!loaded) {
         axios.get("/quiz/drag-drop").then(response => {
+            const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
             setQuestionData(response.data.questionData);
-            setAnswerData(response.data.answerData);
+            setAnswerData(shuffle(response.data.answerData));
             loaded = true
         });
-        
     }
     
-      
     //Map all the questions as cards
     const questionCards = questionData.questions.map(card => {
         return (
             <Question 
                 key={card.id}
                 question={card.question}
-                answer={card.answer}
                 id={card.id}
                 onDrop = {id => updateData(id)}
+                answerData={answerData}
             />
         )
     });
     
-
-    //Map all the answers as cards
+    //Map all the answers as cards in random order
     const answerCards = answerData.map(card => {
         return (
             <Answer 
@@ -49,6 +49,8 @@ export default function DragDrop() {
             />
         )
     });
+    
+    
     
     // Update the value of the "matched" key of a specific object in the answer array
     const updateData = (id) => {
@@ -68,26 +70,30 @@ export default function DragDrop() {
     let count = 0;
     let finished = false;
     answerData.filter((item) => {
-        if (item.matched) {count++};
-        if (count === answerData.length) {
+        if (item.matched) {
+            count++;
+            
+        };
+        if (count === questionData.questions.length) {
             finished = true;
-        }  
+        } 
     })
-    // console.log(answerData[0])
     
     return (
         <div className="drag-drop">
             <DndProvider backend={HTML5Backend}>
                 <div className="questions">
                     <h2>Questions</h2>
-                    <br/>
-                    {questionCards}
+                    <div className="question-box">
+                        {questionCards}
+                    </div>
                 </div>
 
                 <div className="answers">
                     <h2>Answers</h2>
-                    <br/>
-                    {answerCards}
+                    <div className="answer-box">
+                        {answerCards}
+                    </div>
                 </div>
 
                 <TimerAndResult maxTime={questionData.maxTime} finished={finished}/>

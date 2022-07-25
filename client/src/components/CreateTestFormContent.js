@@ -1,49 +1,69 @@
 import React, { useEffect, useState } from "react";
 var questionList = []
+var answerList = []
 export default function CreateTestFormContent(props) {
-    const [array, setArray] = useState({
+    const [questionArray, setquestionArray] = useState({
         id: 0,
-        question: "",
-        answer: ""
-    })
+        question: ""
+    });
+    const [answerArray, setAnswerArray] = useState({
+        id: 0,
+        matched: false
+    });
 
-    function handleChange(e) {
-        const {id, name, value} = e.target
-        setArray(prevArray => ({
+    function addQuestion(e) {
+        const {id, name, value} = e.target;
+        setquestionArray(prevArray => ({
             ...prevArray,
-            id: id.substring(name.length),
+            id: parseInt(id.substring(name.length)),
             [name] : value
-        }))
-        
+        }));
     }
 
+    function addAnswer(e) {
+        const {id, name, value} = e.target;
+        setAnswerArray(prevArray => ({
+            ...prevArray,
+            id: parseInt(id.substring(name.length)),
+            [name] : value
+        }));
+    }
+    
     useEffect(() => {
-        if (array.id > 0) {
-            questionList[array.id - 1] = array;
+        if (questionArray.id > 0) {
+            questionList[questionArray.id - 1] = questionArray;
         }
-    }, [array])
-    props.updateData(questionList)
+    }, [questionArray])
+
+    useEffect(() => {
+        if (answerArray.id > 0) {
+            answerList[answerArray.id - 1] = answerArray;
+        }
+    }, [answerArray])
+    props.updateData({questionList, answerList})
     
     return (
         <div className="form-content">
             <input 
                 type="text"
-                minLength={4}
+                minLength={1}
                 className="question"
                 autoComplete="off"
-                onChange={handleChange}
+                onChange={addQuestion}
                 name="question"
                 id={`question${props.id}`}
                 required/>
+        
             <input 
                 type="text"
-                minLength={4}
+                minLength={1}
                 className="answer"
                 autoComplete="off"
-                onChange={handleChange}
+                onChange={addAnswer}
                 name="answer"
                 id={`answer${props.id}`}
                 required/>
+            
         </div>
     )
 }

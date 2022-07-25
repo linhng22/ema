@@ -5,7 +5,7 @@ import {ItemTypes} from "./DragDropConstants"
 export default function DragDropAnswer(props) {
     const [{isDragging}, drag] = useDrag({
         type: ItemTypes.ANSWER,
-        item: {input: props.answer},
+        item: {id: props.id, value: props.answer},
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -13,12 +13,16 @@ export default function DragDropAnswer(props) {
 
     
     return (
-        <div className="card answer" id={props.id}>
+        <div 
+            ref={drag}
+            className="card answer" 
+            id={props.id}
+            style={{display: props.matched ? "none" : "",
+                    backgroundColor: isDragging ? "#95e1d3" : "#fbcc89"}}>
             <div
-                ref={drag}
                 className="card-answer"
-                style={{ opacity : isDragging ? "0.5" : "1",
-                         display: props.matched ? "none" : ""}}>{props.answer}   
+                style={{opacity : isDragging ? "0.5" : "1"}}>
+                    {props.answer}   
             </div>
         </div>
     )
