@@ -7,7 +7,7 @@ import TimerAndResult from "../../components/DragDropTimerAndResult"
 import {DndProvider} from "react-dnd"
 import {HTML5Backend} from "react-dnd-html5-backend"
 var loaded = false;
-// var shuffled = false;
+
 export default function DragDrop() {
     const [questionData, setQuestionData] = useState({
         maxTime: -1,
