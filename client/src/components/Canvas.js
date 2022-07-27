@@ -1,9 +1,16 @@
 import React, { useEffect, useRef, useState } from "react"
 import sprite from "../images/dog_sprite.png"
 import background from "../images/game_background1.jpg"
-export default function Canvas() {
-    // const [gameSpeed, setGameSpeed] = useState(3);
+
+export default function Canvas(props) {
+    const [gameSpeed, setGameSpeed] = useState(1);
+    useEffect(() => {
+        setGameSpeed(props.speed);
+    }, [props.speed]);
     const canvasRef = useRef(null);
+    const [X, setX] = useState(0);
+    const [X2, setX2] = useState(880);
+    
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -11,7 +18,8 @@ export default function Canvas() {
         const CANVAS_HEIGHT = canvas.height = 530;
         const SPRITE_CANVAS_WIDTH = 100;
         const SPRITE_CANVAS_HEIGHT = 100;
-        let gameSpeed = 2; 
+        let x = X;
+        let x2 = X2;
 
         const backgroundImage = new Image();
         backgroundImage.src = background;
@@ -23,7 +31,7 @@ export default function Canvas() {
         let gameFrame = 0;
         const staggerFrames = 5;
         const spriteAnimations = [];
-        let playerState = "walk";
+        let playerState = "idle";
         const animationStates = [
             {
                 name: 'dead',
@@ -71,36 +79,29 @@ export default function Canvas() {
             spriteAnimations[state.name] = frames;
         });
         
-        let x = 0;
-        let x2 = 880;
+        
 
         function animate() {
-            ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            
+            // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x2, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            if (x < -880) {
-                x = 880 + x2 - gameSpeed;
-            } else {
-                x -= gameSpeed;
-            }
-            if (x2 < -880) {
-                x2 = 880 + x - gameSpeed;
-            } else {
-                x2 -= gameSpeed;
-            }
-            
+            if (x < -880)  x = 880 + x2 - gameSpeed;
+            else x -= gameSpeed;
+            if (x2 < -880) x2 = 880 + x - gameSpeed;
+            else x2 -= gameSpeed;
+            setX(x);
+            setX2(x2);
             let position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
             let frameX = spriteWidth * position;
             let frameY = spriteAnimations[playerState].loc[position].y;
             ctx.drawImage(playerImage, frameX, frameY,
-                spriteWidth, spriteHeight, 0, 0, SPRITE_CANVAS_WIDTH, SPRITE_CANVAS_HEIGHT);
+                spriteWidth, spriteHeight, 200, 350, SPRITE_CANVAS_WIDTH, SPRITE_CANVAS_HEIGHT);
 
             gameFrame ++;
             requestAnimationFrame(animate);
         }
         animate();
-    }, []);
+    }, [gameSpeed]);
     
     
     
