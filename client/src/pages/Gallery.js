@@ -1,9 +1,14 @@
 import React from "react";
+import Nav from '../components/Nav';
 
 export default function Gallery() {
     return (
-        <div className="home">
-            <p>Gallery page</p>
-        </div>
+        <>
+            <Nav />
+            <div className="home">
+                <p>Gallery page</p>
+            </div>
+        </>
+        
     )
 }

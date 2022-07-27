@@ -1,4 +1,5 @@
 import React from "react";
+import Nav from '../components/Nav';
 import "../css/sign-in.css"
 
 export default function SignIn() {
@@ -12,48 +13,52 @@ export default function SignIn() {
     }
 
     return (
-        <div className="sign-in">
-            <div className="sign-in--box">
-                <div className="forms-wrap">
-                    <form autoComplete="off" className="sign-in--form">
-                        <div className="heading">
-                            <h2>Đăng nhập</h2>
-                            <h6>Chỉ dành cho Admin</h6>
-                        </div>
-                        <div className="form">
-                            <div className="input-wrap">
-                                <input 
-                                type="text"
-                                minLength={4}
-                                className="input-field"
-                                autoComplete="off"
-                                id="userName"
-                                name="userName"
-                                onFocus={moveLabelUp}
-                                onBlur={moveLabelDown}
-                                required/>
-                                <label>Tên đăng nhập</label>
+        <>
+            <Nav />
+            <div className="sign-in">
+                <div className="sign-in--box">
+                    <div className="forms-wrap">
+                        <form autoComplete="off" className="sign-in--form">
+                            <div className="heading">
+                                <h2>Đăng nhập</h2>
+                                <h6>Chỉ dành cho Admin</h6>
                             </div>
+                            <div className="form">
+                                <div className="input-wrap">
+                                    <input 
+                                    type="text"
+                                    minLength={4}
+                                    className="input-field"
+                                    autoComplete="off"
+                                    id="userName"
+                                    name="userName"
+                                    onFocus={moveLabelUp}
+                                    onBlur={moveLabelDown}
+                                    required/>
+                                    <label>Tên đăng nhập</label>
+                                </div>
 
-                            <div className="input-wrap">
-                                <input 
-                                type="password"
-                                minLength={6}
-                                className="input-field"
-                                autoComplete="off"
-                                id="password"
-                                name="password"
-                                onFocus={moveLabelUp}
-                                onBlur={moveLabelDown}
-                                required/>
-                                <label >Mật khẩu</label>
+                                <div className="input-wrap">
+                                    <input 
+                                    type="password"
+                                    minLength={6}
+                                    className="input-field"
+                                    autoComplete="off"
+                                    id="password"
+                                    name="password"
+                                    onFocus={moveLabelUp}
+                                    onBlur={moveLabelDown}
+                                    required/>
+                                    <label >Mật khẩu</label>
+                                </div>
+
+                                <input type="submit" value="Đăng nhập" className="sign-btn"/>
                             </div>
-
-                            <input type="submit" value="Đăng nhập" className="sign-btn"/>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
+        
     )
 }

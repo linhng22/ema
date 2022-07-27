@@ -1,5 +1,4 @@
 import './App.css';
-import Nav from './components/Nav';
 import Home from "./pages/Home";
 import Gallery from "./pages/Gallery";
 import Quiz from "./pages/Quiz";
@@ -14,7 +13,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Nav />
         <Routes>
           <Route path="/" exact element={<Home />}/>
           <Route path="/gallery" exact element={<Gallery />}/>

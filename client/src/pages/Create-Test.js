@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios"
+import Nav from '../components/Nav';
 import "../css/create-test.css"
 import FormContent from "../components/CreateTestFormContent"
 
@@ -95,84 +96,88 @@ export default function CreateTest() {
     // console.log(num);
 
     return (
-        <div className="test">
-            <h2>Tạo đề kiểm tra (Quiz)</h2>
-            <div className="form-container">
-                <form className="test-form" >
-                    <div className="question-number-container">
-                        <label>Số câu hỏi: </label>
-                        <input 
-                            type="text"
-                            className="number"
-                            autoComplete="off"
-                            id="question-number"
-                            name="question-number"
-                            onChange={handleChange}
-                            placeholder={num}
-                            required/>
-                    </div>
-                    
-                    <div className="quiz-time">
-                        <label>Thời gian làm bài: </label>
-                        <input 
-                            type="text"
-                            className="number"
-                            autoComplete="off"
-                            id="maxTime"
-                            name="maxTime"
-                            onChange={handleChange}
-                            placeholder={ (questionData.maxTime / 60 >=1)
-                                ? (questionData.maxTime / 60) 
-                                : (questionData.maxTime)}
-                            required/>
-                        <span> phút</span>
-                    </div>
-                    <div className="form-heading">
-                        <h3>Câu hỏi</h3>
-                        <h3>Đáp án</h3>
+        <>
+            <Nav />
+            <div className="test">
+                <h2>Tạo đề kiểm tra (Quiz)</h2>
+                <div className="form-container">
+                    <form className="test-form" >
+                        <div className="question-number-container">
+                            <label>Số câu hỏi: </label>
+                            <input 
+                                type="text"
+                                className="number"
+                                autoComplete="off"
+                                id="question-number"
+                                name="question-number"
+                                onChange={handleChange}
+                                placeholder={num}
+                                required/>
+                        </div>
+                        
+                        <div className="quiz-time">
+                            <label>Thời gian làm bài: </label>
+                            <input 
+                                type="text"
+                                className="number"
+                                autoComplete="off"
+                                id="maxTime"
+                                name="maxTime"
+                                onChange={handleChange}
+                                placeholder={ (questionData.maxTime / 60 >=1)
+                                    ? (questionData.maxTime / 60) 
+                                    : (questionData.maxTime)}
+                                required/>
+                            <span> phút</span>
+                        </div>
+                        <div className="form-heading">
+                            <h3>Câu hỏi</h3>
+                            <h3>Đáp án</h3>
+                        </div>
+
+                        {rowElements}
+                        
+                        
+                        
+                    </form>
+
+                    <div className="wrong-answers-container">
+                        <span>Bạn có muốn thêm các đáp án sai để tạo phương án nhiễu? </span>
+                        <div className="radio-btn-box">
+                            <input 
+                                type="radio"
+                                className="radio-btn" 
+                                value="yes"
+                                checked={hasWrongAnswer}
+                                onChange={handleRadioBtn}/> Có
+                            <input 
+                                type="radio"
+                                className="radio-btn" 
+                                value="no"
+                                checked={!hasWrongAnswer}
+                                onChange={handleRadioBtn}/> Không
+                        </div>
+                        <div 
+                            className="wrong-answers-box"
+                            style={{display: hasWrongAnswer ? "" : "none"}}>
+                                <span>Lưu ý: </span>Ngăn cách các đáp án sai bằng dấu &. VD: time&get&mine. 
+                            <br/>
+                            <input 
+                                className="wrong-answers"
+                                id="wrongAnswers"
+                                placeholder="time&get&mine"
+                                onChange={handleChange}/>
+                        </div>
+                        
                     </div>
 
-                    {rowElements}
-                    
-                    
-                    
-                </form>
-
-                <div className="wrong-answers-container">
-                    <span>Bạn có muốn thêm các đáp án sai để tạo phương án nhiễu? </span>
-                    <div className="radio-btn-box">
-                        <input 
-                            type="radio"
-                            className="radio-btn" 
-                            value="yes"
-                            checked={hasWrongAnswer}
-                            onChange={handleRadioBtn}/> Có
-                        <input 
-                            type="radio"
-                            className="radio-btn" 
-                            value="no"
-                            checked={!hasWrongAnswer}
-                            onChange={handleRadioBtn}/> Không
-                    </div>
-                    <div 
-                        className="wrong-answers-box"
-                        style={{display: hasWrongAnswer ? "" : "none"}}>
-                            <span>Lưu ý: </span>Ngăn cách các đáp án sai bằng dấu &. VD: time&get&mine. 
-                        <br/>
-                        <input 
-                            className="wrong-answers"
-                            id="wrongAnswers"
-                            placeholder="time&get&mine"
-                            onChange={handleChange}/>
-                    </div>
-                    
+                    <input 
+                        type="button" 
+                        value="Tạo đề thi" 
+                        onClick={handleSubmit}/>
                 </div>
-
-                <input 
-                    type="button" 
-                    value="Tạo đề thi" 
-                    onClick={handleSubmit}/>
             </div>
-        </div>
+        </>
+        
     )
 }
