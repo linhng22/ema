@@ -7,7 +7,7 @@ export default function Quiz() {
             <Nav />
             <div className="home">
                 <a href="/quiz/drag-drop">Drag and Drop</a>
-                <a href="/quiz/multiple-choice">Multiple Choice</a>
+                <a href="/quiz/fill-in">Fill in Blank</a>
             </div>
         </>
     )

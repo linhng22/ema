@@ -5,11 +5,14 @@ import background from "../images/game_background1.jpg"
 export default function Canvas(props) {
     const [gameSpeed, setGameSpeed] = useState(1);
     useEffect(() => {
-        setGameSpeed(props.speed);
+        if (gameSpeed > 0) {
+            setGameSpeed(props.speed);
+        }
     }, [props.speed]);
     const canvasRef = useRef(null);
     const [X, setX] = useState(0);
     const [X2, setX2] = useState(880);
+    const [playerState, setPlayerState] = useState("walk");
     
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -31,7 +34,16 @@ export default function Canvas(props) {
         let gameFrame = 0;
         const staggerFrames = 5;
         const spriteAnimations = [];
-        let playerState = "idle";
+
+        // Set the state according to the game speed
+        
+        if (gameSpeed === 0) setPlayerState("idle");
+        if (gameSpeed >= 1 && gameSpeed < 3) setPlayerState("walk");
+        if (gameSpeed >= 3 && gameSpeed < 4) setPlayerState("slide");
+        if (gameSpeed >= 4 && gameSpeed < 6) setPlayerState("jump");
+        if (gameSpeed >= 6) setPlayerState("run");
+        
+        // All the animation states
         const animationStates = [
             {
                 name: 'dead',
@@ -79,18 +91,20 @@ export default function Canvas(props) {
             spriteAnimations[state.name] = frames;
         });
         
-        
 
         function animate() {
             // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x2, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            if (x < -880)  x = 880 + x2 - gameSpeed;
-            else x -= gameSpeed;
-            if (x2 < -880) x2 = 880 + x - gameSpeed;
-            else x2 -= gameSpeed;
-            setX(x);
-            setX2(x2);
+            if (gameSpeed >= 0) {
+                if (x < -880)  x = 880 + x2 - gameSpeed;
+                else x -= gameSpeed;
+                if (x2 < -880) x2 = 880 + x - gameSpeed;
+                else x2 -= gameSpeed;
+                setX(x);
+                setX2(x2);
+            }
+            
             let position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
             let frameX = spriteWidth * position;
             let frameY = spriteAnimations[playerState].loc[position].y;
@@ -101,9 +115,9 @@ export default function Canvas(props) {
             requestAnimationFrame(animate);
         }
         animate();
-    }, [gameSpeed]);
+    }, [gameSpeed, playerState]);
     
-    
+    console.log(gameSpeed)
     
 
     return (
