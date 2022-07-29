@@ -4,6 +4,10 @@
     /* box-sizing: border-box; */
 }
 
+body{
+    margin: 0;
+}
+
 .mulchoice{
     display: grid;
     grid-template-columns: 100%;
@@ -15,4 +19,15 @@
     border: 2px solid black;
     width: 880px;
     height: 530px;
+}
+
+.fill-in-answer-box{
+    display: flex;
+    justify-content: center;
+}
+.icon {
+    width: 30px;
+    height: auto;
+    margin: 0 20px;
+    cursor: pointer;
 }

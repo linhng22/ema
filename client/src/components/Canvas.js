@@ -2,13 +2,71 @@ import React, { useEffect, useRef, useState } from "react"
 import sprite from "../images/dog_sprite.png"
 import background from "../images/game_background1.jpg"
 
+const spriteWidth = 256.9;
+const spriteHeight = 256.875;
+
+const backgroundImage = new Image();
+backgroundImage.src = background;
+
+const playerImage = new Image();
+playerImage.src = sprite;
+
+let spriteAnimations = [];
+
+// All the animation states
+const animationStates = [
+    {
+        name: 'dead',
+        frames: 10
+    },
+    {
+        name: 'fall',
+        frames: 8
+    },
+    {
+        name: 'hurt',
+        frames: 10
+    },
+    {
+        name: 'idle',
+        frames: 10
+    },
+    {
+        name: 'jump',
+        frames: 8
+    },
+    {
+        name: 'run',
+        frames: 8
+    },
+    {
+        name: 'slide',
+        frames: 10
+    },
+    {
+        name: 'walk',
+        frames: 9
+    },
+
+];
+animationStates.forEach((state, index) => {
+    let frames = {
+        loc: [],
+    };
+    for (let j = 0; j < state.frames; j++) {
+        let positionX = j * spriteWidth;
+        let positionY = index * spriteHeight;
+        frames.loc.push({x: positionX, y: positionY});
+    };
+    spriteAnimations[state.name] = frames;
+});
+
 export default function Canvas(props) {
     const [gameSpeed, setGameSpeed] = useState(1);
     useEffect(() => {
-        if (gameSpeed > 0) {
-            setGameSpeed(props.speed);
-        }
+        setGameSpeed(props.speed);
     }, [props.speed]);
+
     const canvasRef = useRef(null);
     const [X, setX] = useState(0);
     const [X2, setX2] = useState(880);
@@ -17,83 +75,24 @@ export default function Canvas(props) {
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
+        ctx.beginPath();
         const CANVAS_WIDTH = canvas.width = 880;
         const CANVAS_HEIGHT = canvas.height = 530;
         const SPRITE_CANVAS_WIDTH = 100;
         const SPRITE_CANVAS_HEIGHT = 100;
+        const staggerFrames = 5;
+        let gameFrame = 0;
         let x = X;
         let x2 = X2;
-
-        const backgroundImage = new Image();
-        backgroundImage.src = background;
-
-        const playerImage = new Image();
-        playerImage.src = sprite
-        const spriteWidth = 256.9;
-        const spriteHeight = 256.875;
-        let gameFrame = 0;
-        const staggerFrames = 5;
-        const spriteAnimations = [];
-
+        
         // Set the state according to the game speed
-        
         if (gameSpeed === 0) setPlayerState("idle");
-        if (gameSpeed >= 1 && gameSpeed < 3) setPlayerState("walk");
-        if (gameSpeed >= 3 && gameSpeed < 4) setPlayerState("slide");
-        if (gameSpeed >= 4 && gameSpeed < 6) setPlayerState("jump");
-        if (gameSpeed >= 6) setPlayerState("run");
+        if (gameSpeed === 1) setPlayerState("walk");
+        if (gameSpeed === 2) setPlayerState("run");
+        if (gameSpeed === 3) setPlayerState("jump");
+        if (gameSpeed > 3) setPlayerState("slide");
         
-        // All the animation states
-        const animationStates = [
-            {
-                name: 'dead',
-                frames: 10
-            },
-            {
-                name: 'fall',
-                frames: 8
-            },
-            {
-                name: 'hurt',
-                frames: 10
-            },
-            {
-                name: 'idle',
-                frames: 10
-            },
-            {
-                name: 'jump',
-                frames: 8
-            },
-            {
-                name: 'run',
-                frames: 8
-            },
-            {
-                name: 'slide',
-                frames: 10
-            },
-            {
-                name: 'walk',
-                frames: 9
-            },
-
-        ];
-        animationStates.forEach((state, index) => {
-            let frames = {
-                loc: [],
-            };
-            for (let j = 0; j < state.frames; j++) {
-                let positionX = j * spriteWidth;
-                let positionY = index * spriteHeight;
-                frames.loc.push({x: positionX, y: positionY});
-            };
-            spriteAnimations[state.name] = frames;
-        });
-        
-
         function animate() {
-            // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             ctx.drawImage(backgroundImage, x2, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             if (gameSpeed >= 0) {
@@ -116,9 +115,6 @@ export default function Canvas(props) {
         }
         animate();
     }, [gameSpeed, playerState]);
-    
-    console.log(gameSpeed)
-    
 
     return (
         <>
