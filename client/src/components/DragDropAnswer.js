@@ -11,14 +11,16 @@ export default function DragDropAnswer(props) {
         }),
     });
 
-    
     return (
         <div 
             ref={drag}
             className="card answer" 
             id={props.id}
-            style={{display: props.matched ? "none" : "",
-                    backgroundColor: isDragging ? "#95e1d3" : "#fbcc89"}}>
+            style={{
+                display: props.matched ? "none" : "",
+                backgroundColor: isDragging ? "#95e1d3" : "#fbcc89",
+                gridRow: (props.index / 5 < 5) ? (props.index / 5 + 1) : (props.index/5),
+                gridColumn: props.index % 5 + 1}}>
             <div
                 className="card-answer"
                 style={{opacity : isDragging ? "0.5" : "1"}}>

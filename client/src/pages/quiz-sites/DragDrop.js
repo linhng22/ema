@@ -46,6 +46,7 @@ export default function DragDrop() {
                 answer={card.answer}
                 id={card.id}
                 matched={card.matched}
+                index={answerData.findIndex((answer) => answer.answer === card.answer)}
             />
         )
     });
