@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import nextIcon from "../images/next.png"
+import timeOutIcon from "../images/time-out.png"
 var loaded = false;
 
 export default function FillInQuestion(props) {
@@ -25,12 +26,15 @@ export default function FillInQuestion(props) {
     if (time > 0 && timerOn) {
         setTimeout(() => setTime(time - 1), 1000);
     }
-
+    console.log(time)
     // Decrease the speed every 3s
     useEffect(() => {
         if (time % 4 === 3) {
             props.changeSpeed(-1);
         }
+        // if (time === 0 ) {
+        //     setTimerOn(false);
+        // }
     }, [time]);
 
     // Get data from backend and shuffle the answer data once
@@ -64,13 +68,13 @@ export default function FillInQuestion(props) {
         // Set value in input as none
         document.querySelector(".fill-in-answer").value = "";
     }
-
     
     return (
         <div className="fill-in-form">
             <div>Điền từ hoặc câu bằng tiếng Anh sao cho đúng nghĩa với từ/câu sau</div>
             <div className="fill-in-question">
-                {questionData.questions.length > 1 ? questionData.questions[questionNum - 1].question : ""}
+                Question {questionNum} : "
+                <span>{questionData.questions.length > 1 ? questionData.questions[questionNum - 1].question : ""}</span>"
             </div>
             <div className="fill-in-answer-box">
                 <input 
@@ -86,6 +90,20 @@ export default function FillInQuestion(props) {
                     alt="next question"
                     onClick={goToNextQuestion}
                     style={{display: (questionNum > questionData.questions.length - 1) ? "none" : ""}}/>
+            </div>
+            <div className="out-of-time-box">
+                <img src={timeOutIcon} alt="out of time"/>
+                <h2>Hết giờ!</h2>
+                <button
+                    className="backToHome"
+                    onClick={() => window.location.replace("/quiz")}>
+                        Về trang Quiz
+                </button>
+                <button
+                    className="again"
+                    onClick={() => window.location.reload()}>
+                        Làm lại
+                </button>
             </div>
         </div>
     )

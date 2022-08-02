@@ -11,12 +11,12 @@ export default function FillIn() {
     }
     
     return (
-        <>
+        <div className="fill-in-container">
             <Canvas 
                 speed = {speed}/>
 
             <FillInQuestion 
                 changeSpeed={(num) => updateSpeed(num)}/>
-        </>
+        </div>
     )
 }

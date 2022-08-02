@@ -1,3 +1,11 @@
+/* Google font */
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+body, input, button {
+    margin: 0;
+    font-family: 'Nunito' sans-serif;
+}
+
 *, *::before, *::after {
     padding: 0;
     margin: 0;

@@ -34,6 +34,7 @@ export default function Timer({maxTime, finished}) {
             <div className="timer">Thời gian: 
                 <span className="highlight"> {time}</span> giây
                 <br/>
+                <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
                 <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
                 <button className="finish" onClick={handleFinish} style={{display: finished ? "" : "none"}}>Hoàn thành</button>
             </div>
