@@ -13,7 +13,6 @@ export default function FillInQuestion(props) {
     const [questionNum, setQuestionNum] = useState(1);
     const [time, setTime] = useState(questionData.maxTime);
     const [timerOn, setTimerOn] = useState(true);
-    const [finished, setFinished] = useState(false);
 
     // Update the max time after getting data from backend
     useEffect(() => {
@@ -54,11 +53,13 @@ export default function FillInQuestion(props) {
 
         let userAnswer = e.target.value.trim().toLowerCase();
         if (e.which !== 13 && userAnswer === answerData[index].answer.toLowerCase()) {
-            props.changeSpeed(1);
+            props.changeSpeed(2);
         }
         if (e.which === 13) {
             if (questionNum < questionData.questions.length) goToNextQuestion();
-            else setFinished(true);
+            else {
+                props.finishQuiz(true)
+            };
         }
     }
     
@@ -73,8 +74,8 @@ export default function FillInQuestion(props) {
     return (
         <>          
             <div className="timer">
-                        <FillInTimer />
-                    </div>
+                <FillInTimer />
+            </div>
   
             <div className="fill-in-question">
                 Question {questionNum} : "

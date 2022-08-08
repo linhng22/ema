@@ -132,11 +132,11 @@ body, input, button {
 }
 
 .again{
-    background-color: #c2c0c0;
+    background-color: #fbcc89;
 }
 
 .again:hover{
-    box-shadow: 0 0 5px #c2c0c0;
+    box-shadow: 0 0 5px #fbcc89;
 }
 
 .finish {
