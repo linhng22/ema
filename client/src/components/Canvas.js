@@ -87,10 +87,10 @@ export default function Canvas(props) {
         
         // Set the state according to the game speed
         if (gameSpeed === 0) setPlayerState("idle");
-        if (gameSpeed === 1) setPlayerState("walk");
-        if (gameSpeed === 2) setPlayerState("run");
-        if (gameSpeed === 3) setPlayerState("jump");
-        if (gameSpeed > 3) setPlayerState("slide");
+        if (gameSpeed === 1 || gameSpeed === 2) setPlayerState("walk");
+        if (gameSpeed === 3 || gameSpeed === 4) setPlayerState("run");
+        if (gameSpeed === 5 || gameSpeed === 6) setPlayerState("jump");
+        if (gameSpeed > 6) setPlayerState("slide");
         
         function animate() {
             ctx.drawImage(backgroundImage, x, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -118,9 +118,7 @@ export default function Canvas(props) {
 
     return (
         <>
-            <div className="canvas">
-                <canvas id="canvas1" ref={canvasRef}/>
-            </div>
+            <canvas id="canvas1" ref={canvasRef}/>
         </>
     )
 }

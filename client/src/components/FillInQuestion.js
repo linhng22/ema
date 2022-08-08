@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
+import FillInTimer from "./FillInTimer"
 import axios from "axios";
 import nextIcon from "../images/next.png"
-import timeOutIcon from "../images/time-out.png"
 var loaded = false;
 
 export default function FillInQuestion(props) {
@@ -11,7 +11,7 @@ export default function FillInQuestion(props) {
     });
     const [answerData, setAnswerData] = useState([]);
     const [questionNum, setQuestionNum] = useState(1);
-    const [time, setTime] = useState(0);
+    const [time, setTime] = useState(questionData.maxTime);
     const [timerOn, setTimerOn] = useState(true);
     const [finished, setFinished] = useState(false);
 
@@ -26,15 +26,16 @@ export default function FillInQuestion(props) {
     if (time > 0 && timerOn) {
         setTimeout(() => setTime(time - 1), 1000);
     }
-    console.log(time)
+    console.log(time);
     // Decrease the speed every 3s
     useEffect(() => {
         if (time % 4 === 3) {
             props.changeSpeed(-1);
         }
-        // if (time === 0 ) {
-        //     setTimerOn(false);
-        // }
+        if (time === 0 ) {
+            setTimerOn(false);
+            props.displayPopup(true);
+        }
     }, [time]);
 
     // Get data from backend and shuffle the answer data once
@@ -52,7 +53,7 @@ export default function FillInQuestion(props) {
         const index = answerData.findIndex((answer) => answer.id === questionNum);
 
         let userAnswer = e.target.value.trim().toLowerCase();
-        if (userAnswer === answerData[index].answer.toLowerCase()) {
+        if (e.which !== 13 && userAnswer === answerData[index].answer.toLowerCase()) {
             props.changeSpeed(1);
         }
         if (e.which === 13) {
@@ -60,7 +61,7 @@ export default function FillInQuestion(props) {
             else setFinished(true);
         }
     }
-
+    
     // Go to the next question
     function goToNextQuestion() {
         const nextQuestionNum = questionNum + 1;
@@ -70,8 +71,11 @@ export default function FillInQuestion(props) {
     }
     
     return (
-        <div className="fill-in-form">
-            <div>Điền từ hoặc câu bằng tiếng Anh sao cho đúng nghĩa với từ/câu sau</div>
+        <>          
+            <div className="timer">
+                        <FillInTimer />
+                    </div>
+  
             <div className="fill-in-question">
                 Question {questionNum} : "
                 <span>{questionData.questions.length > 1 ? questionData.questions[questionNum - 1].question : ""}</span>"
@@ -83,7 +87,8 @@ export default function FillInQuestion(props) {
                     onKeyUp={checkAnswer}
                     autoComplete="off"
                     minLength={1}
-                    placeholder="Điền đáp án vào đây" />
+                    placeholder="Đáp án" />
+                <br/>
                 <img 
                     className="icon next" 
                     src={nextIcon} 
@@ -91,20 +96,7 @@ export default function FillInQuestion(props) {
                     onClick={goToNextQuestion}
                     style={{display: (questionNum > questionData.questions.length - 1) ? "none" : ""}}/>
             </div>
-            <div className="out-of-time-box">
-                <img src={timeOutIcon} alt="out of time"/>
-                <h2>Hết giờ!</h2>
-                <button
-                    className="backToHome"
-                    onClick={() => window.location.replace("/quiz")}>
-                        Về trang Quiz
-                </button>
-                <button
-                    className="again"
-                    onClick={() => window.location.reload()}>
-                        Làm lại
-                </button>
-            </div>
-        </div>
+            
+        </>
     )
 }
