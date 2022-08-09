@@ -1,63 +1,105 @@
 import React, { useState, useEffect } from "react"
+import guide from "../images/info.png"
+import happyFace2 from "../images/happy2.png"
+import sadFace2 from "../images/sad2.png"
+import normalFace2 from "../images/normal2.png"
+import congrat from "../images/congrat.png"
 
-export default function Timer({maxTime, finished}) {
-    const [time, setTime] = useState(maxTime);
+
+export default function Timer(props) {
+    const [time, setTime] = useState(props.maxTime);
     const [timerOn, setTimerOn] = useState(true);
-    const [text, setText] = useState("");
+    const [score, setScore] = useState(0);
+    const [face, setFace] = useState(normalFace2);
 
     // Update the max time after getting data from backend
     useEffect(() => {
-        setTime(maxTime)
-    }, [maxTime]);
+        setTime(props.maxTime)
+    }, [props.maxTime]);
 
     // Count down time
     if (time > 0 && timerOn) {
         setTimeout(() => setTime(time - 1), 1000);
     }
 
+    // Update character face, text that shows time has run out, and set timerOn as false
     useEffect(() => {
         if (time === 0) {
-            setText("Hết giờ!");
             setTimerOn(false);
+            setFace(sadFace2);
+            props.timeOut();
         }
     }, [time]);
     
         
     // Evaluate grade based on the actual time doing quiz and the total given time
-    const handleFinish = () => {
-        setTimerOn(false);
-        if (time/maxTime > 0.89) {
-            setText("Tuyệt vời!");
-        } else if (time/maxTime > 0.69 && time/maxTime < 0.9) {
-            setText("Cố gắng thêm một chút nữa nào!");
-        } else if (time/maxTime > 0.49 && time/maxTime < 0.7) {
-            setText("Cố gắng hơn nữa nhé!");
-        } else {
-            setText("Chú ý ôn tập và làm lại nào!");
+    useEffect(() => {
+        if (props.finished) {
+            setTimerOn(false);
+            setScore((time/props.maxTime).toFixed(2) * 100);
         }
-    }
+    }, [props.finished]);
+
+    useEffect(() => {
+        if (score >= 80) {
+            setFace(happyFace2);
+        } else if (score >= 50 && time/props.maxTime < 80) {
+            setFace(normalFace2);
+        } else {
+            setFace(sadFace2);
+        }
+    }, [score]);
+
+
 
     return (
         <>
-            <div className="timer">Thời gian: 
+            <div className="guide-box"
+                style={{opacity: (timerOn) ? "1" : "0"}}>
+                <img 
+                    src={guide} 
+                    className="icon guide"
+                    onClick={() => props.displayGuide() }/>
+                <p>Hướng dẫn</p>
+                <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
+                <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
+            </div>
+
+            <div className="timer"
+                style={{opacity: (timerOn) ? "1" : "0"}}>
+                Thời gian: 
                 <span className="highlight"> {time >= 0 ? time : "..."}</span> giây
                 <div 
                     className="progress-bar" 
-                    style={{width: `${(time / maxTime) * 98}%`}}>
-                </div>
-                <br/>
-                <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
-                <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
-                <button className="finish" onClick={handleFinish} style={{display: finished ? "" : "none"}}>Hoàn thành</button>
+                    style={{width: `${(time / props.maxTime) * 98}%`}}>
+                </div>                
             </div>
 
             <div
-                className="results"
-                style={{display: timerOn ? "none" : ""}}>
-                    <h4>Hoàn thành trong: <span className="highlight">{time}</span> giây</h4>
-                    <h3>Số điểm đạt được: <span className="highlight">{(time/maxTime).toFixed(2) * 100}</span> / 100</h3>
-                    <div>{text}</div>
+                className="results pop-up"
+                style={{display: (props.finished) ? "" : "none"}}
+                >
+                    <img src={congrat} alt="congratulation icon" className="big-icon"/>
+                    <h2>Hoàn thành</h2>
+                    <img 
+                        src={face} 
+                        alt="character face" 
+                        className="happy face" />
+                    <p>Yay! Chúc mừng bạn đã hoàn thành bài Quiz.
+                        <br/>Bạn đạt được <span className="highlight">{score}</span> / 100 điểm.
+                    </p>
+                    <button
+                        className="backToQuiz"
+                        onClick={() => window.location.replace("/quiz")}>
+                            Về trang Quiz
+                    </button>
+                    <button
+                        className="again"
+                        onClick={() => window.location.reload()}>
+                            Làm lại
+                    </button>
             </div>
+
         </>
         
     )

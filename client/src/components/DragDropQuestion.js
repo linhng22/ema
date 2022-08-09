@@ -41,7 +41,7 @@ export default function DragDropQuestion(props) {
                 style={{opacity: isOver ? "0.5" : "1",
                         background: box.matched ? "#95e1d3" : "",
                         fontSize: box.matched ? "16px" : "13px"}}>
-                    {box.answer ? box.answer : "Kéo đáp án vào đây"}
+                    {box.answer ? box.answer : "Kéo vào đây"}
             </div>
         </div>
     )

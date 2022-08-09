@@ -3,7 +3,9 @@ import FillInProgressBar from "./FillInProgressBar"
 import axios from "axios";
 import nextIcon from "../images/next.png"
 var loaded = false;
-
+var hint1 = 'Nếu chưa chắc chắn về câu trả lời, đừng nhấn "Enter" hay dấu mũi tên nhé!';
+var hint2 = 'Chính xác! Nhấn "Enter" hoặc dấu mũi tên nhé!';
+var hint3 = 'Chưa đúng rồi! Cố lên!';
 export default function FillInQuestion(props) {
     const [questionData, setQuestionData] = useState({
         maxTime: -1,
@@ -12,9 +14,10 @@ export default function FillInQuestion(props) {
     const [answerData, setAnswerData] = useState([]);
     const [questionNum, setQuestionNum] = useState(1);
     const [time, setTime] = useState(questionData.maxTime);
-    const [timerOn, setTimerOn] = useState(true);
+    const [timerOn, setTimerOn] = useState(!props.pauseTimer);
     const [correct, setCorrect] = useState(false);
     const [score, setScore] = useState(0);
+    const [hint, setHint] = useState(hint1);
 
     // Update the max time after getting data from backend
     useEffect(() => {
@@ -39,6 +42,15 @@ export default function FillInQuestion(props) {
         }
     }, [time]);
 
+    // Pause the countdown timer if the user clicks on the "guide" button, resume it if the user clicks on "Close" button
+    useEffect(() =>{
+        if (props.pauseTimer){
+            setTimerOn(false);
+        } else {
+            setTimerOn(true);
+        }
+    }, [props.pauseTimer]);
+
     // Get data from backend and shuffle the answer data once
     if (!loaded) {
         axios.get("/quiz/drag-drop").then(response => {
@@ -50,27 +62,33 @@ export default function FillInQuestion(props) {
     }
     
     function checkAnswer(e) {
+
         // Find the index of the correct answer in the answerData
         const index = answerData.findIndex((answer) => answer.id === questionNum);
 
         let userAnswer = e.target.value.trim().toLowerCase();
-        if (e.which !== 13 && userAnswer === answerData[index].answer.toLowerCase()) {
-            props.changeSpeed(2);
-            //Increase the score by 1 only once
-            if (!correct){
-                const newScore = score + 1;
-                setScore(newScore);
-                setCorrect(true);
+        if (e.which !== 13) {
+            setHint(hint3);
+            if (userAnswer === answerData[index].answer.toLowerCase()) {
+                // Increase speed by 2
+                props.changeSpeed(2);
+                // Update hint
+                setHint(hint2);
+                //Increase the score by 1 only once
+                if (!correct){
+                    const newScore = score + 1;
+                    setScore(newScore);
+                    setCorrect(true);
+                }
             }
-        }
-        if (e.which === 13) {
+        } else {
             if (questionNum < questionData.questions.length) {
                 goToNextQuestion();
-                props.updateScore(score);
+                props.updateScore(Math.floor(score / questionData.questions.length * 100));
             }
             else {
                 props.finishQuiz(true);
-                props.updateScore(score);
+                props.updateScore(Math.floor(score / questionData.questions.length * 100));
             };
         }
     }
@@ -78,11 +96,17 @@ export default function FillInQuestion(props) {
     
     // Go to the next question
     function goToNextQuestion() {
-        setCorrect(false);
-        const nextQuestionNum = questionNum + 1;
-        setQuestionNum(nextQuestionNum);
-        // Set value in input as none
-        document.querySelector(".fill-in-answer").value = "";
+        setHint(hint1);
+        if (questionNum < questionData.questions.length){
+            setCorrect(false);
+            const nextQuestionNum = questionNum + 1;
+            setQuestionNum(nextQuestionNum);
+            // Set value in input as none
+            document.querySelector(".fill-in-answer").value = "";
+        } else {
+            props.finishQuiz(true);
+            props.updateScore(score);
+        }
     }
     
     return (
@@ -112,7 +136,8 @@ export default function FillInQuestion(props) {
                     src={nextIcon} 
                     alt="next question"
                     onClick={goToNextQuestion}
-                    style={{display: (questionNum > questionData.questions.length - 1) ? "none" : ""}}/>
+                    style={{display: (questionNum > questionData.questions.length) ? "none" : ""}}/>
+                <p className="hint"><b>Chú ý: </b>{hint}</p>
             </div>
             
         </>
