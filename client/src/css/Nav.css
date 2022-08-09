@@ -9,7 +9,7 @@ body, input, button {
 .nav {
     display: flex;
     align-items: center;
-    height: 10vh;
+    height: 8vh;
     color: black;
     background-color: #95e1d3;
 }

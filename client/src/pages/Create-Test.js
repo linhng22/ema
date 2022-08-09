@@ -3,6 +3,8 @@ import axios from "axios"
 import Nav from '../components/Nav';
 import "../css/create-test.css"
 import FormContent from "../components/CreateTestFormContent"
+var notice1="Chỉ nhập chữ số!";
+var notice2="Chỉ cung cấp 1 đáp án duy nhất!"
 
 export default function CreateTest() {
     const [num, setNum] = useState(2);
@@ -13,6 +15,7 @@ export default function CreateTest() {
     const [answerData, setAnswerData] = useState([]);
     const [hasWrongAnswer, setHasWrongAnswer] = useState(false);
     const [wrongAnswerList, setWrongAnswersList] = useState(["|"]);
+    const [notice, setNotice] = useState(null);
 
     // Display a certain number of question and answer rows
     let rowArray = []
@@ -39,25 +42,40 @@ export default function CreateTest() {
     }
 
     function handleChange(e) {
-        // Set the number of questions according to the user's input
-        if(e.target.id === "question-number") {
-            setNum(e.target.value);
+        setNotice(null);
+        // Set the number of questions according to the user's input if it contains only numbers
+        if(e.target.id === "question-number" && e.target.value) {
+            if (onlyNumbers(e.target.value.trim())){
+                setNum(e.target.value.trim());
+            } else{
+                setNotice(notice1);
+            }
+            
         }
 
-        //Set the maximum amount of quiz time
+        //Set the maximum amount of quiz time if it contains only numbers
         if(e.target.id === "maxTime") {
-            setQuestionData(prevData => ({
-                ...prevData,
-                maxTime: e.target.value
-            }));
+            if (onlyNumbers(e.target.value.trim())){
+                setQuestionData(prevData => ({
+                    ...prevData,
+                    maxTime: e.target.value.trim()
+                }));
+            } else{
+                setNotice(notice1);
+            }
         }
 
         // Set the list of wrong answers
         if (e.target.id === "wrongAnswers") {
-            const str = e.target.value;
-            const list = str.split('&');
+            const str = e.target.value.trim();
+            const list = str.split('&').trim();
             setWrongAnswersList(list);
         }
+    }
+
+    // Check if user's inputs for question number and time contain only digits. Source: https://bobbyhadz.com/blog/javascript-check-if-string-contains-only-digits
+    function onlyNumbers(str){
+        return /^[0-9.,]+$/.test(str);
     }
 
     // Handle the radio button
@@ -93,43 +111,39 @@ export default function CreateTest() {
         .catch(err => console.log(err))
     }
 
-    // console.log(num);
-
     return (
         <>
             <Nav />
             <div className="test">
-                <h2>Tạo đề kiểm tra (Quiz)</h2>
+                <h2>Tạo đề kiểm tra ngắn (Quiz)</h2>
                 <div className="form-container">
                     <form className="test-form" >
                         <div className="question-number-container">
                             <label>Số câu hỏi: </label>
                             <input 
                                 type="text"
-                                className="number"
+                                className="small input"
                                 autoComplete="off"
                                 id="question-number"
                                 name="question-number"
                                 onChange={handleChange}
-                                placeholder={num}
+                                placeholder="Điền chữ số. VD: 2"
                                 required/>
                         </div>
                         
                         <div className="quiz-time">
-                            <label>Thời gian làm bài: </label>
+                            <label>Thời gian làm bài (<b>phút</b>): </label>
                             <input 
                                 type="text"
-                                className="number"
+                                className="small input"
                                 autoComplete="off"
                                 id="maxTime"
                                 name="maxTime"
                                 onChange={handleChange}
-                                placeholder={ (questionData.maxTime / 60 >=1)
-                                    ? (questionData.maxTime / 60) 
-                                    : (questionData.maxTime)}
+                                placeholder="Điền chữ số. VD: 2"
                                 required/>
-                            <span> phút</span>
                         </div>
+
                         <div className="form-heading">
                             <h3>Câu hỏi</h3>
                             <h3>Đáp án</h3>
@@ -142,28 +156,34 @@ export default function CreateTest() {
                     </form>
 
                     <div className="wrong-answers-container">
-                        <span>Bạn có muốn thêm các đáp án sai để tạo phương án nhiễu? </span>
+                        <span><b>Thêm các đáp án sai để tạo phương án nhiễu?</b></span>
                         <div className="radio-btn-box">
-                            <input 
-                                type="radio"
-                                className="radio-btn" 
-                                value="yes"
-                                checked={hasWrongAnswer}
-                                onChange={handleRadioBtn}/> Có
-                            <input 
-                                type="radio"
-                                className="radio-btn" 
-                                value="no"
-                                checked={!hasWrongAnswer}
-                                onChange={handleRadioBtn}/> Không
+                            <div>
+                                <input 
+                                    type="radio"
+                                    className="radio-btn" 
+                                    value="yes"
+                                    checked={hasWrongAnswer}
+                                    onChange={handleRadioBtn}/> Có
+                            </div>
+                            
+                            <div>
+                                <input 
+                                    type="radio"
+                                    className="radio-btn" 
+                                    value="no"
+                                    checked={!hasWrongAnswer}
+                                    onChange={handleRadioBtn}/> Không
+                            </div>
                         </div>
+
                         <div 
                             className="wrong-answers-box"
                             style={{display: hasWrongAnswer ? "" : "none"}}>
-                                <span>Lưu ý: </span>Ngăn cách các đáp án sai bằng dấu &. VD: time&get&mine. 
+                                <b>Lưu ý: </b>Ngăn cách các đáp án sai bằng dấu "<b>&</b>". VD: time&get&mine. 
                             <br/>
                             <input 
-                                className="wrong-answers"
+                                className="wrong-answers input"
                                 id="wrongAnswers"
                                 placeholder="time&get&mine"
                                 onChange={handleChange}/>
@@ -175,6 +195,12 @@ export default function CreateTest() {
                         type="button" 
                         value="Tạo đề thi" 
                         onClick={handleSubmit}/>
+                </div>
+
+                
+                <div 
+                    style={{display: notice ? "" : "none"}}
+                    className="notice cloud">
                 </div>
             </div>
         </>

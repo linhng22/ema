@@ -14,7 +14,7 @@ body, input, button {
 
 .sign-in {
     width: 100%;
-    min-height: 90vh;
+    min-height: 92vh;
     overflow: hidden;
     padding: 2rem;
     display: flex;

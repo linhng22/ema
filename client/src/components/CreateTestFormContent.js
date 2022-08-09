@@ -43,26 +43,30 @@ export default function CreateTestFormContent(props) {
     props.updateData({questionList, answerList})
     
     return (
-        <div className="form-content">
-            <input 
-                type="text"
-                minLength={1}
-                className="question"
-                autoComplete="off"
-                onChange={addQuestion}
-                name="question"
-                id={`question${props.id}`}
-                required/>
-        
-            <input 
-                type="text"
-                minLength={1}
-                className="answer"
-                autoComplete="off"
-                onChange={addAnswer}
-                name="answer"
-                id={`answer${props.id}`}
-                required/>
+        <div className="form-content-box">
+            <div className="form-content">
+                <p>{props.id}</p>
+                <input 
+                    type="text"
+                    minLength={1}
+                    className="question input"
+                    autoComplete="off"
+                    onChange={addQuestion}
+                    name="question"
+                    id={`question${props.id}`}
+                    required/>
+            
+                <input 
+                    type="text"
+                    minLength={1}
+                    className="answer input"
+                    autoComplete="off"
+                    onChange={addAnswer}
+                    name="answer"
+                    id={`answer${props.id}`}
+                    required/>
+            </div>
+            
             
         </div>
     )
