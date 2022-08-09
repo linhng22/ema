@@ -14,6 +14,14 @@ export default function Timer({maxTime, finished}) {
     if (time > 0 && timerOn) {
         setTimeout(() => setTime(time - 1), 1000);
     }
+
+    useEffect(() => {
+        if (time === 0) {
+            setText("Hết giờ!");
+            setTimerOn(false);
+        }
+    }, [time]);
+    
         
     // Evaluate grade based on the actual time doing quiz and the total given time
     const handleFinish = () => {
@@ -32,7 +40,11 @@ export default function Timer({maxTime, finished}) {
     return (
         <>
             <div className="timer">Thời gian: 
-                <span className="highlight"> {time}</span> giây
+                <span className="highlight"> {time >= 0 ? time : "..."}</span> giây
+                <div 
+                    className="progress-bar" 
+                    style={{width: `${(time / maxTime) * 98}%`}}>
+                </div>
                 <br/>
                 <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
                 <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
@@ -42,8 +54,8 @@ export default function Timer({maxTime, finished}) {
             <div
                 className="results"
                 style={{display: timerOn ? "none" : ""}}>
-                    <h3>Hoàn thành trong: <span className="highlight">{time}</span> giây</h3>
-                    <h2>Số điểm đạt được: <span className="highlight">{(time/maxTime).toFixed(2) * 100}</span> / 100</h2>
+                    <h4>Hoàn thành trong: <span className="highlight">{time}</span> giây</h4>
+                    <h3>Số điểm đạt được: <span className="highlight">{(time/maxTime).toFixed(2) * 100}</span> / 100</h3>
                     <div>{text}</div>
             </div>
         </>

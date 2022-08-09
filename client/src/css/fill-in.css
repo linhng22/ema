@@ -33,12 +33,12 @@ body {
 }
 
 .guide-box{
-    margin: 60% 0;
+    margin: 10vh 0;
     font-size: 15px;
 }
 
 .fill-in-form{
-    margin-top: 30%;
+    margin-top: 7vh;
     font-size: 17px;
 }
 
@@ -47,6 +47,11 @@ body {
     height: auto;
     margin: 0 auto;
     cursor: pointer;
+    display: block;
+}
+
+.icon.guide{
+    margin-top: 7vh;
 }
 
 .fill-in-question span {
@@ -73,7 +78,8 @@ body {
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 15px;
-    padding: 0 10px;
+    padding: 0 20px;
+    box-shadow: 0 60px 40px -30px rgba(0, 0, 0, 0.27);
 }
 
 .big-icon{
@@ -84,18 +90,17 @@ body {
 .face{
     display: block;
     width: 60px;
-    margin: 0 auto;
+    margin: 5px auto;
 }
 
 .pop-up h2 {
     color: #f2663c;
-    margin: 20px auto;
+    margin: 10px auto;
 }
 
-.pop-up button {
+button {
     font-size: 16px;
     border: none;
-    margin: 10px 0 20px 15px;
     min-width: 150px;
     min-height: 35px;
     cursor: pointer;
@@ -104,13 +109,41 @@ body {
 
 .guide.btn{
     background-color: #c2c0c0;
+    margin: 20px 0 20px 15px;
 }
 
 .backToQuiz{
     background-color: #c2c0c0;
+    margin: 20px;
 }
 
 .guide.pop-up{
     left: 60%
 }
 
+/* css for progress bar starts here */
+.progress-bar-container{
+    font-size: 17px;
+    margin-bottom: 7vh;
+    margin-left: 5%;
+}
+.progress-bar{
+    position: relative;
+    height: 5vh;
+    width: attr(width);
+    background-color: #95e1d3;
+    border-radius: 17px;
+    color: #fff;
+}
+
+.progress-bar::before{
+    content: attr(datalabel);
+    position: absolute;
+    top: 20%;
+    left: 7%;
+}
+
+.fill-in {
+    display: block;
+    margin: 10px auto;
+}

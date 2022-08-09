@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import FillInTimer from "./FillInTimer"
+import FillInProgressBar from "./FillInProgressBar"
 import axios from "axios";
 import nextIcon from "../images/next.png"
 var loaded = false;
@@ -13,6 +13,8 @@ export default function FillInQuestion(props) {
     const [questionNum, setQuestionNum] = useState(1);
     const [time, setTime] = useState(questionData.maxTime);
     const [timerOn, setTimerOn] = useState(true);
+    const [correct, setCorrect] = useState(false);
+    const [score, setScore] = useState(0);
 
     // Update the max time after getting data from backend
     useEffect(() => {
@@ -25,7 +27,7 @@ export default function FillInQuestion(props) {
     if (time > 0 && timerOn) {
         setTimeout(() => setTime(time - 1), 1000);
     }
-    console.log(time);
+    
     // Decrease the speed every 3s
     useEffect(() => {
         if (time % 4 === 3) {
@@ -54,17 +56,29 @@ export default function FillInQuestion(props) {
         let userAnswer = e.target.value.trim().toLowerCase();
         if (e.which !== 13 && userAnswer === answerData[index].answer.toLowerCase()) {
             props.changeSpeed(2);
+            //Increase the score by 1 only once
+            if (!correct){
+                const newScore = score + 1;
+                setScore(newScore);
+                setCorrect(true);
+            }
         }
         if (e.which === 13) {
-            if (questionNum < questionData.questions.length) goToNextQuestion();
+            if (questionNum < questionData.questions.length) {
+                goToNextQuestion();
+                props.updateScore(score);
+            }
             else {
-                props.finishQuiz(true)
+                props.finishQuiz(true);
+                props.updateScore(score);
             };
         }
     }
+
     
     // Go to the next question
     function goToNextQuestion() {
+        setCorrect(false);
         const nextQuestionNum = questionNum + 1;
         setQuestionNum(nextQuestionNum);
         // Set value in input as none
@@ -73,14 +87,17 @@ export default function FillInQuestion(props) {
     
     return (
         <>          
-            <div className="timer">
-                <FillInTimer />
+            <div className="progress-bar-container">
+                <FillInProgressBar 
+                    time={time}
+                    maxTime={questionData.maxTime}/>
             </div>
   
             <div className="fill-in-question">
                 Question {questionNum} : "
                 <span>{questionData.questions.length > 1 ? questionData.questions[questionNum - 1].question : ""}</span>"
             </div>
+
             <div className="fill-in-answer-box">
                 <input 
                     className="fill-in-answer"

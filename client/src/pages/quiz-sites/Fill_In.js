@@ -26,14 +26,16 @@ export default function FillIn() {
         setSpeed(0);
     }, [finished]);
     const [score, setScore] = useState(0);
-
+    
     return (
         <div className="fill-in-container"
-            style={{backgroundColor: (timeOutBox || score > 0) ? "#95e1d3" : "white"}}>
+            style={{backgroundColor: (timeOutBox || finished) ? "#95e1d3" : "white"}}>
             <div 
                 className="canvas-box" 
-                style={{display: (timeOutBox || score > 0) ? "none" : ""}}>
+                style={{display: (timeOutBox || finished) ? "none" : ""}}>
                     <div className="guide-box">
+                        <button className="backToQuiz fill-in" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
+                        <button className="again fill-in" onClick={() => window.location.reload()}>Làm lại</button>
                         <img 
                             src={guide} 
                             className="icon guide"
@@ -41,18 +43,18 @@ export default function FillIn() {
                         <p>Hướng dẫn</p>
                         
                         <div className="fill-in-form">
-                                <FillInQuestion 
-                                    changeSpeed={(num) => updateSpeed(num)}
-                                    displayPopup={() => displayPopup()}
-                                    finishQuiz={()=> setFinished(true)}
-                                    updateScore={(newScore) => setScore(newScore)}/>
+                            <FillInQuestion 
+                                changeSpeed={(num) => updateSpeed(num)}
+                                displayPopup={() => displayPopup()}
+                                finishQuiz={()=> setFinished(true)}
+                                updateScore={(newScore) => setScore(newScore)}/>
                         </div>
 
                     </div>
 
                 <div 
                     className="canvas" 
-                    style={{opacity: (guideBox || finished || score > 0) ? "0.5" : "1"}}>
+                    style={{opacity: (guideBox || finished) ? "0.5" : "1"}}>
                         <Canvas 
                             speed = {speed}/>
                 </div>
@@ -61,7 +63,7 @@ export default function FillIn() {
             
             <div 
                 className="out-of-time-box pop-up" 
-                style={{display: (timeOutBox) ? "" : "none"}}>
+                style={{display: (timeOutBox && score === 0) ? "" : "none"}}>
                     <img className="big-icon" src={timeOutIcon} alt="out of time"/>
                     <h2>Hết giờ!</h2>
                     <img src={sadFace} alt="sad face" className="sad face" />
@@ -84,20 +86,20 @@ export default function FillIn() {
                     <h2>Hướng dẫn</h2>
                     <p>Điền đáp án vào ô "Đáp án" trong thời gian quy định. 
                         <br/>
-                        Cố gắng trả lời đúng trước khi bấm vào dấu mũi tên phía dưới hoặc ấn vào "Enter" vì bạn sẽ không thể quay lại câu hỏi trước.
+                        Cố gắng trả lời đúng trước khi bấm vào dấu mũi tên hoặc ấn vào "Enter" vì bạn sẽ không thể quay lại câu hỏi trước.
                     </p>
                     <button onClick={() => setGuideBox(false)} className="guide btn">Đóng</button>
             </div>
 
             <div
                 className="finished pop-up"
-                style={{display: (score > 0) ? "" : "none"}}
+                style={{display: (finished) ? "" : "none"}}
                 >
                     <img src={congrat} alt="congratulation icon" className="big-icon"/>
                     <h2>Hoàn thành</h2>
                     <img src={happyFace} alt="happy face" className="happy face" />
                     <p>Yay! Chúc mừng bạn đã hoàn thành bài Quiz.
-                        <br/>Điểm số của bạn là <span>{score}</span>.
+                        <br/>Bạn đạt được <span className="highlight">{score}</span> điểm.
                     </p>
                     <button
                         className="backToQuiz"
