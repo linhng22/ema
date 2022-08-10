@@ -78,7 +78,6 @@ export default function DragDrop() {
     answerData.filter((item) => {
         if (item.matched) {
             count++;
-            
         };
         if (count === questionData.questions.length) {
             finished = true;

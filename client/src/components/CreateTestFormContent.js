@@ -11,22 +11,54 @@ export default function CreateTestFormContent(props) {
         matched: false
     });
 
+    // Add new questions to the question list
     function addQuestion(e) {
-        const {id, name, value} = e.target;
-        setquestionArray(prevArray => ({
-            ...prevArray,
-            id: parseInt(id.substring(name.length)),
-            [name] : value
-        }));
+        if (e.target.value){
+            e.target.style.backgroundColor="#cffcf4";
+            e.target.style.outline="none";
+            const {id, name, value} = e.target;
+            setquestionArray(prevArray => ({
+                ...prevArray,
+                id: parseInt(id.substring(name.length)),
+                [name] : value
+            }));
+        } else{
+            e.target.style.backgroundColor="#fff";
+            e.target.style.outline="1px solid #bbb";
+        }        
     }
 
+    // Add new answers to the answer list
     function addAnswer(e) {
-        const {id, name, value} = e.target;
-        setAnswerArray(prevArray => ({
-            ...prevArray,
-            id: parseInt(id.substring(name.length)),
-            [name] : value
-        }));
+        if (e.target.value) {
+            e.target.style.backgroundColor="#cffcf4";
+            e.target.style.outline="none";
+            const {id, name, value} = e.target;
+            setAnswerArray(prevArray => ({
+                ...prevArray,
+                id: parseInt(id.substring(name.length)),
+                [name] : value
+            }));
+        } else{
+            e.target.style.backgroundColor="#fff";
+            e.target.style.outline="1px solid #bbb";
+        }
+    }
+
+    // Change background color of a row when user is inputting
+    function addBackground(e){
+        const currentElement = document.getElementById(e.target.id);
+        const parent = currentElement.parentElement.parentElement;
+        parent.style.backgroundColor="#95e1d3";
+        parent.style.transition="background-color 0.5s"
+    }
+
+    // Remove background color of a row when user is not inputting
+    function removeBackground(e){
+        const currentElement = document.getElementById(e.target.id);
+        const parent = currentElement.parentElement.parentElement;
+        parent.style.backgroundColor="#fff";
+        parent.style.transition="background-color 0.5s"
     }
     
     useEffect(() => {
@@ -40,6 +72,8 @@ export default function CreateTestFormContent(props) {
             answerList[answerArray.id - 1] = answerArray;
         }
     }, [answerArray])
+
+    // Update question list and answer list
     props.updateData({questionList, answerList})
     
     return (
@@ -52,6 +86,8 @@ export default function CreateTestFormContent(props) {
                     className="question input"
                     autoComplete="off"
                     onChange={addQuestion}
+                    onFocus={addBackground}
+                    onBlur={removeBackground}
                     name="question"
                     id={`question${props.id}`}
                     required/>
@@ -62,12 +98,13 @@ export default function CreateTestFormContent(props) {
                     className="answer input"
                     autoComplete="off"
                     onChange={addAnswer}
+                    onFocus={addBackground}
+                    onBlur={removeBackground}
                     name="answer"
                     id={`answer${props.id}`}
+                    placeholder="Chỉ điền MỘT đáp án duy nhất!"
                     required/>
             </div>
-            
-            
         </div>
     )
 }

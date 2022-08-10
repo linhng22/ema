@@ -1,4 +1,41 @@
 {
-  "maxTime": 300,
-  "questions": []
+  "maxTime": 180,
+  "questions": [
+    {
+      "id": 1,
+      "question": "màu đen"
+    },
+    {
+      "id": 2,
+      "question": "màu trắng"
+    },
+    {
+      "id": 3,
+      "question": "màu vàng"
+    },
+    {
+      "id": 4,
+      "question": "màu tím"
+    },
+    {
+      "id": 5,
+      "question": "màu xanh lá cây"
+    },
+    {
+      "id": 6,
+      "question": "màu xanh da trời đậm"
+    },
+    {
+      "id": 7,
+      "question": "màu hồng"
+    },
+    {
+      "id": 8,
+      "question": "màu da cam"
+    },
+    {
+      "id": 9,
+      "question": "màu bạc"
+    }
+  ]
 }

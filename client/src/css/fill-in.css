@@ -9,7 +9,7 @@ body {
 .fill-in-container{
     min-height: 80vh;
     height: 100vh;
-    padding: 10px;
+    padding: 0 10px;
 }
 
 .canvas-box{
@@ -33,12 +33,16 @@ body {
 }
 
 .guide-box{
-    margin: 10vh 0;
+    margin: 8vh 0;
     font-size: 15px;
 }
 
+.guide-box p {
+    color: #000;
+}
+
 .fill-in-form{
-    margin-top: 7vh;
+    margin-top: 6vh;
     font-size: 17px;
 }
 
@@ -51,7 +55,7 @@ body {
 }
 
 .icon.guide{
-    margin-top: 7vh;
+    margin-top: 6vh;
 }
 
 .fill-in-question span {
@@ -77,9 +81,11 @@ body {
     width: 45%;
     max-width: 600px;
     min-height: 25vh;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
+    margin-left: 0;
+    margin-top: 0;
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 15px;
@@ -94,13 +100,17 @@ body {
 
 .face{
     display: block;
-    width: 60px;
+    width: 70px;
     margin: 5px auto;
 }
 
 .pop-up h2 {
     color: #f2663c;
     margin: 10px auto;
+}
+
+.pop-up p{
+    color: #000;
 }
 
 button {
@@ -141,7 +151,7 @@ button {
 /* css for progress bar starts here */
 .progress-bar-container{
     font-size: 17px;
-    margin-bottom: 7vh;
+    margin-bottom: 6vh;
     margin-left: 5%;
 }
 .progress-bar{

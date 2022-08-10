@@ -59,6 +59,7 @@ export default function FillIn() {
                         <button className="again fill-in" onClick={() => window.location.reload()}>Làm lại</button>
                         <img 
                             src={guide} 
+                            alt="guide icon"
                             className="icon guide"
                             onClick={() => displayGuide()}/>
                         <p>Hướng dẫn</p>

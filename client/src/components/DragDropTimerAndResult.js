@@ -58,8 +58,9 @@ export default function Timer(props) {
                 style={{opacity: (timerOn) ? "1" : "0"}}>
                 <img 
                     src={guide} 
+                    alt="guide icon"
                     className="icon guide"
-                    onClick={() => props.displayGuide() }/>
+                    onClick={() => props.displayGuide()}/>
                 <p>Hướng dẫn</p>
                 <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
                 <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
