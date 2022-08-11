@@ -217,6 +217,7 @@ export default function CreateTest() {
                     <input 
                         type="button" 
                         value="Tạo đề thi" 
+                        className="submit btn"
                         onClick={() => setConfirmation(true)}/>
                 </div>
                 
@@ -231,7 +232,7 @@ export default function CreateTest() {
                     alt="confirmation icon"
                     className="big-icon"/>
                 <h3>Bạn chắc chắn muốn tạo đề thi bây giờ?</h3>
-                <p>Đề thi của bạn có <span>{questionData.questions.length}</span> câu hỏi tương ứng với <span>{answerData.length}</span> đáp án.
+                <p>Đề thi của bạn có <span>{questionData.questions.length}</span> câu hỏi tương ứng với tổng cộng <span>{answerData.length}</span> câu trả lời.
                 </p>
                 <p>Thời gian làm bài: <span>{questionData.maxTime}</span> phút.</p>
                 <button

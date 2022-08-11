@@ -142,7 +142,7 @@ input[type="radio"]{
     margin: 5px auto;
 }
 
-.form-container input[type="button"]{
+.submit.btn{
     background-color: #f5793b;
     border: none;
     outline: 1px solid white;
@@ -155,7 +155,7 @@ input[type="radio"]{
     margin-bottom: 20px;
 }
 
-.form-container input[type="button"]:hover{
+.submit.btn:hover{
     box-shadow: 0 8px 4px -3px rgba(0, 0, 0, 0.27);
     outline: 1px solid #f5793b;
     transition: box-shadow 0.2s;
@@ -166,7 +166,7 @@ input[type="radio"]{
     min-height: 30vh;
 }
 
-#confirmation h3, p{
+#confirmation h3{
     color: #fff;
     margin: 10px 0;
 }

@@ -8,7 +8,7 @@ export default function SignIn() {
     }
 
     function moveLabelDown(event) {
-        if (event.target.value !="") return;
+        if (event.target.value !== "") return;
         event.target.classList.remove("active")
     }
 

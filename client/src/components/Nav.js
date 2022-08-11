@@ -6,11 +6,15 @@ import Logo from "../images/logo.png"
 export default function Nav() {
     return (
         <nav className="nav">
-            <img src={Logo} className="nav--logo" alt="logo"/>
+            <img 
+                src={Logo} 
+                className="nav--logo" 
+                alt="logo"
+                onClick={() => window.location.replace("/")}/>
             <div className="nav--links">
                 <Link to="/">Trang chủ</Link>
                 <Link to="/schedule">Lịch học</Link>
-                <Link to="/gallery">Thư viện ảnh</Link>
+                {/* <Link to="/gallery">Thư viện ảnh</Link> */}
                 <Link to="/quiz">Quiz</Link>
                 <Link to="/sign-in">Đăng nhập</Link>
             </div>

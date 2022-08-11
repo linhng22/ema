@@ -116,7 +116,7 @@ export default function FillIn() {
 
             <div
                 className="finished pop-up"
-                style={{display: (finished) ? "" : "none"}}
+                style={{display: (finished || (timeOutBox && score > 0)) ? "" : "none"}}
                 >
                     <img src={congrat} alt="congratulation icon" className="big-icon"/>
                     <h2>Hoàn thành</h2>
