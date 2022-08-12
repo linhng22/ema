@@ -48,7 +48,6 @@ app.post('/create-test', (req, res) => {
 })
 
 app.post('/create-news', (req, res) => {
-    console.log(req.body);
     let newsData = JSON.stringify(req.body, null, 2);
     fs.writeFileSync('news.json', newsData, 
         (err) => {console.log(err)});

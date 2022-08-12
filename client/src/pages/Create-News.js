@@ -4,6 +4,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import Nav from '../components/Nav';
 import "../css/create-news.css"
 import confirmIcon from "../images/confirm.png"
+import congrat from "../images/congrat.png"
 var loaded = false;
 
 export default function CreateTest() {
@@ -15,9 +16,10 @@ export default function CreateTest() {
         content: ""
     });
     const [title, setTitle] = useState("Bài đăng mới");
-    const [warning, setWarning] = useState(null);
     const [confirmation, setConfirmation] = useState(false);
+    const [displayMessage, setDisplayMessage] = useState(false);
     const editorRef = useRef(null);
+    // Update the content of the news post
     const log = () => {
         if (editorRef.current) {
             const time = new Date();
@@ -31,7 +33,7 @@ export default function CreateTest() {
             );
         }
     };
-    console.log(news);
+    
     // Get data from backend and shuffle the answer data once
     if (!loaded) {
         axios.get("/create-news").then(response => {
@@ -40,7 +42,14 @@ export default function CreateTest() {
         });
     }
 
+    // Update the title of the news
+    function changeTitle(e) {
+        if (e.target.value){
+            setTitle(e.target.value);
+        }
+    }
 
+    // Save the content of the news post
     function saveNews() {
         if (!document.getElementById("news-title").value || !editorRef.current.getContent()){
             alert("Vui lòng nhập đầy đủ Tiêu đề và Nội dung bài đăng");
@@ -56,57 +65,63 @@ export default function CreateTest() {
     // Save new question data and answer data
     function handleSubmit(e) {
         e.preventDefault();
+        setConfirmation(false);
 
         axios.post("http://localhost:8000/create-news", newsData ).then((res) => {
             console.log(res);
-            alert("Bài đăng đã được tạo thành công!");
-            if (!alert("Bài đăng đã được tạo thành công!")){
-                // window.location.replace("/");
-            }
+            setDisplayMessage(true);
         })
         .catch(err => {
             console.log(err);
             alert("Có lỗi xảy ra trong quá trình tạo bài đăng. Vui lòng thực hiện lại sau.");
         })
     }
-
+    
     return (
         <>
             <Nav />
-            <div className="news-container" style={{opacity: confirmation ? "0.1" : "1"}}>
-                <h2>Tạo bài đăng tin tức</h2>
+            <div 
+                className="news-container" 
+                style={{opacity: confirmation ? "0.1" : "1", 
+                        display: displayMessage ? "none" : ""}}>
+                <h2 className="h2">Tạo bài đăng tin tức</h2>
 
-                <div
-                    className="news-form">
-                        <label>Tiêu đề bài đăng </label>
+                <div className="news-form">
+                    <div className="news-header">
+                        <label><b>Tiêu đề bài đăng</b><span className="highlight">*</span> :</label>
                         <input 
                             type="text"
                             minLength={4}
                             className="news-title"
                             id="news-title"
                             placeholder="Điền tiêu đề"
+                            onChange={changeTitle}
+                            autoComplete="off"
                             required/>
-                        <div className="editor-container">
-                            <Editor
-                                apiKey='wt17xioo934dxysnqq4zejgssvpa5gorse9t4ju3pgk5a1i3'
-                                onInit={(evt, editor) => editorRef.current = editor}
-                                onEditorChange={log}
-                                init={{
-                                    height: 500,
-                                    toolbar_mode: 'wrap',   
-                                    plugins: [
-                                        'advlist', 'autolink', 'lists', 'link', 'image', 'editimage', 'charmap', 'preview',
-                                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
-                                    ],
-                                    toolbar: 'undo redo blocks | bold italic underline forecolor | alignleft aligncenter ' +
-                                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help',
-                                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                                }}
-                            />
-                        </div>
-                        
+                        <label ><b>Nội dung bài đăng</b><span className="highlight">*</span> :</label>
+                    </div>
+                    
+                    <div className="editor-container">
+                        <Editor
+                            apiKey='wt17xioo934dxysnqq4zejgssvpa5gorse9t4ju3pgk5a1i3'
+                            onInit={(evt, editor) => editorRef.current = editor}
+                            onEditorChange={log}
+                            init={{
+                                height: 430,
+                                toolbar_mode: 'wrap',   
+                                statusbar: false,
+                                plugins: [
+                                    'advlist', 'autolink', 'lists', 'link', 'image', 'editimage', 'charmap', 'preview',
+                                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                    'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                                ],
+                                toolbar: 'undo redo blocks | bold italic underline | fontfamily fontsize forecolor backcolor | alignleft aligncenter ' +
+                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                    'link image table| removeformat | preview',
+                                content_style: 'body { font-family:Nunito,sans-serif; font-size:12pt }'
+                            }}
+                        />
+                    </div>
                 </div>
                 
                 <input 
@@ -119,7 +134,7 @@ export default function CreateTest() {
             <div 
                 className="confirmation pop-up"
                 id="confirmation"
-                style={{display: confirmation ? "" : "none"}}>
+                style={{display: (confirmation) ? "" : "none"}}>
                 <img 
                     src={confirmIcon} 
                     alt="confirmation icon"
@@ -137,6 +152,25 @@ export default function CreateTest() {
                 </button>
             </div>
 
+            <div
+                className="pop-up"
+                style={{display: (displayMessage) ? "" : "none", backgroundColor: "#aef5c6"}}
+                >
+                    <img src={congrat} alt="congratulation icon" className="big-icon"/>
+                    <h2>Hoàn thành</h2>
+                    
+                    <p>Chúc mừng!<br/>Bài đăng của bạn đã được tạo thành công!</p>
+                    <button
+                        className="backToQuiz"
+                        onClick={() => window.location.replace("/")}>
+                            Về trang chủ
+                    </button>
+                    <button
+                        className="again"
+                        onClick={() => window.location.reload()}>
+                            Tạo bài đăng mới
+                    </button>
+            </div>
         </>
         
     )
