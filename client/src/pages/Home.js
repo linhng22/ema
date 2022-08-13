@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from "react";
+import axios from "axios"
 import Nav from '../components/Nav';
+import NewsCard from "../components/NewsCard"
 import "../css/home.css";
 import image1 from "../images/image1.jpg";
 import image2 from "../images/image2.jpg";
@@ -7,14 +9,50 @@ import image3 from "../images/image3.jpg";
 var text1 = "Các lớp học dành cho mọi độ tuổi";
 var text2 = "Nội dung bám sát chương trình phổ thông, nhu cầu người học";
 var text3 = "Trang bị toàn bộ 4 kỹ năng Nghe - Nói - Đọc - Viết";
+var loaded = false;
 
 export default function Home() {
+    const [newsData, setNewsData] = useState([]);
     const [image, setImage] = useState(image1);
     const [text, setText] = useState(text1);
     const [num, setNum] = useState(1);
 
+    // Get data from backend and shuffle the answer data once
+    if (!loaded) {
+        axios.get("http://localhost:8000/").then(response => {
+            // Save 5 most recent news to the newsData
+            for (let i = response.data.length; i > response.data.length - 8; i--) {
+                if (response.data[i - 1]){
+                    setNewsData(prevData => ([
+                        ...prevData,
+                        response.data[i - 1]
+                    ]));
+                }
+            }
+        }).then(() => {
+            loaded = true;
+        });    
+    }
+       
+    // Map all the news as cards
+    const newsCards = newsData.map(card => {
+        return (
+            <NewsCard 
+                key={card.id}
+                id={card.id}
+                time={card.time}
+                title={card.title}
+                content={card.content}
+            />
+        )
+    });
+
     // Update the image and text when the set number changes
     useEffect(() => {
+        // Change bullets
+        const bullets = document.querySelectorAll(".bullets span");
+        bullets.forEach(bull => bull.classList.remove("active"));
+        document.getElementById(`bullet-${num}`).classList.add("active");
         if (num === 1){
             setImage(image1);
             setText(text1)
@@ -26,16 +64,13 @@ export default function Home() {
             setText(text3);
         }
     }, [num]);
-        
-    // Move slider when user clicks on a bullet
-    function moveSlider(e) {
-        // Change bullets
-        const bullets = document.querySelectorAll(".bullets span");
-        bullets.forEach(bull => bull.classList.remove("active"));
-        e.target.classList.add("active");
-        // Update the set number
-        setNum(parseInt(e.target.id.slice(7)));
-    }
+    
+    setTimeout(() => {
+        if (num < 3) {
+            const newNum = num + 1;
+            setNum(newNum);
+        } else setNum(1);
+    }, 5000);
 
     return (
         <>
@@ -52,19 +87,24 @@ export default function Home() {
                         </div>
 
                         <div className="bullets">
-                            <span id="bullet-1" className="active" onClick={moveSlider}></span>
-                            <span onClick={moveSlider} id="bullet-2"></span>
-                            <span onClick={moveSlider} id="bullet-3"></span>
+                            <span id="bullet-1" className="active"></span>
+                            <span id="bullet-2"></span>
+                            <span id="bullet-3"></span>
                         </div>
                     </div>
                 </div>
 
                 <div className="news">
+                    <div className="news-heading">
+                        <h2 >Tin tức, Thông báo</h2>
+                        <div className="big-line"></div>
+                    </div>
                     
+                    <div className="news-container">{newsData.length > 0 ? newsCards : ""}</div>
                 </div>
                 
                 <div className="footer">
-                    <p>&copy; {new Date().getFullYear()} EMA - English Ms An</p>
+                    <p style={{margin: "5px"}}>&copy; {new Date().getFullYear()} EMA - English Ms An</p>
                     <a href="/policy" className="policy-link">Chính sách và điều khoản</a>
                 </div>
             </div>

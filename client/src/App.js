@@ -2,6 +2,7 @@ import './App.css';
 import Home from "./pages/Home";
 import Gallery from "./pages/Gallery";
 import Policy from "./pages/Policy";
+import News from "./pages/News";
 import Quiz from "./pages/Quiz";
 import Schedule from "./pages/Schedule";
 import SignIn from "./pages/SignIn";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" exact element={<Home />}/>
           <Route path="/gallery" exact element={<Gallery />}/>
           <Route path="/policy" exact element={<Policy />}/>
+          <Route path="/news/:newsId" exact element={<News />}/>
           <Route path="/quiz" exact element={<Quiz />}/>
           <Route path="/schedule" exact element={<Schedule />}/>
           <Route path="/sign-in" exact element={<SignIn />}/>

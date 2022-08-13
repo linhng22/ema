@@ -1,3 +1,14 @@
 [
-  
+  {
+    "id": 1,
+    "time": "Ngày 12 tháng 8 năm 2022",
+    "title": "Chào mừng bạn đến với EMA",
+    "content": "<p>test thử</p>\n<h3><span style=\"color: rgb(224, 62, 45);\">Hello</span></h3>\n<p>Welcome!</p>"
+  },
+  {
+    "id": 2,
+    "time": "Ngày 12 tháng 8 năm 2022",
+    "title": "Bài đăng có hình ảnh",
+    "content": "<h2><span style=\"font-family: 'comic sans ms', sans-serif;\">What is Lorem Ipsum?</span></h2>\n<p><span style=\"font-family: 'comic sans ms', sans-serif;\"><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span></p>\n<p><span style=\"font-family: 'comic sans ms', sans-serif;\"><img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/George_the_amazing_guinea_pig.jpg/1200px-George_the_amazing_guinea_pig.jpg\" alt=\"guinea pig\" width=\"400\" height=\"300\"></span></p>"
+  }
 ]

@@ -6,6 +6,7 @@ const cors = require("cors")
 app.use(cors());
 app.use(express.json());
 
+
 // Send news data to the home page
 app.get('/', (req, res) => {
     // send the news data to the client side
