@@ -21,6 +21,7 @@ function App() {
           <Route path="/gallery" exact element={<Gallery />}/>
           <Route path="/policy" exact element={<Policy />}/>
           <Route path="/news/:newsId" exact element={<News />}/>
+          <Route path="/news" exact element={<News />}/>
           <Route path="/quiz" exact element={<Quiz />}/>
           <Route path="/schedule" exact element={<Schedule />}/>
           <Route path="/sign-in" exact element={<SignIn />}/>

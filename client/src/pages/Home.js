@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios"
 import Nav from '../components/Nav';
-import NewsCard from "../components/NewsCard"
+import Footer from "../components/Footer";
+import NewsCard from "../components/NewsCard";
 import "../css/home.css";
 import image1 from "../images/image1.jpg";
 import image2 from "../images/image2.jpg";
@@ -21,7 +22,7 @@ export default function Home() {
     if (!loaded) {
         axios.get("http://localhost:8000/").then(response => {
             // Save 5 most recent news to the newsData
-            for (let i = response.data.length; i > response.data.length - 8; i--) {
+            for (let i = response.data.length; i > response.data.length - 3; i--) {
                 if (response.data[i - 1]){
                     setNewsData(prevData => ([
                         ...prevData,
@@ -96,18 +97,18 @@ export default function Home() {
 
                 <div className="news">
                     <div className="news-heading">
-                        <h2 >Tin tức, Thông báo</h2>
+                        <h2 >Bảng tin</h2>
                         <div className="big-line"></div>
                     </div>
                     
                     <div className="news-container">{newsData.length > 0 ? newsCards : ""}</div>
                 </div>
                 
-                <div className="footer">
-                    <p style={{margin: "5px"}}>&copy; {new Date().getFullYear()} EMA - English Ms An</p>
-                    <a href="/policy" className="policy-link">Chính sách và điều khoản</a>
-                </div>
+                <div className="contact">alo</div>
+                
             </div>
+
+            <Footer />
         </>
         
     )

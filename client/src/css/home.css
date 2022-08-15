@@ -14,9 +14,8 @@ body, input, button {
 
 .home {
     display: grid;
-    grid-template-columns: 50vw 50vw;
-    grid-template-rows: 90% 10%;
-    min-height: 92vh;
+    grid-template-columns: 60vw 40vw;
+    grid-template-rows: auto;
 }
 
 /* Slides css starts here */
@@ -24,12 +23,11 @@ body, input, button {
     grid-row: 1;
     grid-column: 1;
     display: grid;
-    grid-template-rows: 70% 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;
     overflow: hidden;
-    margin: 15px 0;
-    max-height: 90%;
-    width: 50vw;
+    max-height: 100%;
+    width: 60vw;
 }
 
 .images-wrapper {
@@ -38,16 +36,16 @@ body, input, button {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    width: 100%;
-    margin: 15px auto;
+    width: 95%;
+    margin: 3vh auto;
 }
 
 .home-image {
-    max-height: 50vh;
+    height: 68vh;
     width: auto;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
-    border-radius: 2rem;
+    border-radius: 25px;
 }
 
 
@@ -56,15 +54,16 @@ body, input, button {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    width: 90%;
+    width: 70%;
     margin: 0 auto;
+    height: max-content;
 }
 
 .bullets {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .bullets span {
@@ -89,14 +88,16 @@ body, input, button {
     grid-column: 2;
     grid-row: 1;
     text-align: left;
-    margin: 20px 30px;
+    margin: 20px 10px 5px 10px;
+    padding: 0 4vw 0 0;
+    max-height: 900px;
 }
 
 .news-heading{
     text-align: center;
 }
 
-.news-time{
+.news-card-time{
     font-size: 12px;
     margin: 5px;
 }
@@ -112,13 +113,18 @@ a{
     text-decoration: none;
 }
 
+a:hover{
+    color: darkblue;
+    transition: color 0.4s;
+}
+
 .link{
     color:#f2663c;
     font-size: 20px;
     font-weight: 700;
 }
 
-.news-content > *{
+.news-card-content > *{
     font-size: 15px;
     padding: 5px;
 }
@@ -130,29 +136,3 @@ hr{
 }
 
 /* News css ends here */
-
-/* footer css starts here */
-.footer {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: 90%;
-    margin: 0 auto;
-}
-
-.footer p{
-    color: black;
-    font-size: 14px;
-}
-
-.policy-link{
-    font-size: 14px;
-    text-decoration: none;
-    color: rgb(49, 49, 255);
-    margin: 10px 0;
-    cursor: pointer;;
-}
-
-/* footer css ends here */
