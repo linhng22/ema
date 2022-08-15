@@ -36,7 +36,7 @@ export default function CreateTest() {
     
     // Get data from backend and shuffle the answer data once
     if (!loaded) {
-        axios.get("/create-news").then(response => {
+        axios.get("http://localhost:8000/create-news").then(response => {
             setNewsData(response.data);
             loaded = true;
         });
@@ -100,10 +100,9 @@ export default function CreateTest() {
                             required/>
                         <label ><b>Nội dung bài đăng</b><span className="highlight">*</span> :</label>
                     </div>
-                    
                     <div className="editor-container">
                         <Editor
-                            apiKey='wt17xioo934dxysnqq4zejgssvpa5gorse9t4ju3pgk5a1i3'
+                            apiKey={process.env.REACT_APP_MCE_TINY_API_KEY}
                             onInit={(evt, editor) => editorRef.current = editor}
                             onEditorChange={log}
                             init={{

@@ -23,15 +23,16 @@ body, input, button {
 
 .nav--links {
     list-style: none;
-    display: inline;
-    float: right;
+    width: 70%;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .nav--links > a {
     text-decoration: none;
     color: black;
     font-weight: 800;
-    font-size: 17px;
+    font-size: 18px;
     margin-right: 50px;
     cursor: pointer;
 }

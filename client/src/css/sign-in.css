@@ -16,7 +16,7 @@ body, input, button {
     width: 100%;
     min-height: 92vh;
     overflow: hidden;
-    padding: 2rem;
+    padding-bottom: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
