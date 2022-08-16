@@ -7,7 +7,7 @@ import warningIcon from "../images/warning.png"
 import confirmIcon from "../images/confirm.png"
 var warning1="Chỉ nhập chữ số!";
 
-export default function CreateTest() {
+export default function CreateTest(props) {
     const [num, setNum] = useState(2);
     const [questionData, setQuestionData] = useState({
         maxTime : 5,
@@ -128,7 +128,7 @@ export default function CreateTest() {
 
     return (
         <>
-            <Nav />
+            <Nav admin={props.admin}/>
             <div className="test" style={{opacity: confirmation ? "0.1" : "1"}}>
                 <h2>Tạo đề kiểm tra ngắn (Quiz)</h2>
                 <div className="form-container">

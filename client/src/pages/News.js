@@ -5,9 +5,10 @@ import DOMPurify from "dompurify";
 import Nav from '../components/Nav';
 import Footer from "../components/Footer";
 import "../css/news.css";
+import banner from "../images/banner.png"
 var loaded = false;
 
-export default function News() {
+export default function News(props) {
     const [allNews, setAllNews] = useState([]);
     const [otherNews, setOtherNews] = useState([]);
     const [newsWithId, setNewsWithId] = useState({
@@ -16,14 +17,18 @@ export default function News() {
         title: "",
         content: ""
     });
+    
     let params = useParams();
-    const newsId = params.newsId; // get the news ID
+    const newsId = params.newsId; // get the news ID from url params
+
     if (!loaded){
-        // Get the news
+        // Get news from the server
         axios.get("http://localhost:8000/").then(response => {
+            // Save all news to allNews variable. All news will be displayed on "Bảng tin" page
+            setAllNews(response.data);
+            // Save specific news to newsWithId and other news to otherNews variable
             for (let i = 0; i < response.data.length; i++) {
                 if ( response.data[i]){
-
                     if (i !== newsId - 1 ){
                         if (i < 11) {
                             setOtherNews(prevData => ([
@@ -36,6 +41,8 @@ export default function News() {
             }
         }).then(()=>loaded = true);
     }
+
+    // Display other news as cards
     const otherNewsCards = otherNews.map(news => {
         return (
             <div className="news-card other" key={news.id}>
@@ -46,15 +53,39 @@ export default function News() {
                         {news.title}</a>
                 </div>
                 <p className="other-news news-card-time">
-                    <small>{news.time}</small></p>
+                    <small>Cập nhật: {news.time}</small></p>
                 <hr/>
+            </div>
+        )
+    });
+
+    // Display all news as cards
+    const allNewsCards = allNews.map(news => {
+        const content = news.content.split('. ');
+        const firstSentence = content[0] + `<div class='more'><button class='more-btn'><a href='/news/${news.id}'>Xem thêm</a></button></div>`;
+        return (
+            <div className="news-card all-news" key={news.id}>
+                <div style={{textAlign: "left", marginBottom: "10px"}}>
+                    <a 
+                        href={`/news/${news.id}`} 
+                        className="link all-news">
+                        {news.title}</a>
+                </div>
+                <p className="news-card-time all-news">
+                    <small>Cập nhật: {news.time}</small></p>
+                <div 
+                    className="news-card-content all-news" 
+                    dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(firstSentence)}}>
+                </div>
+                <hr/>
+                <br/>
             </div>
         )
     })
     
     return (
         <>
-            <Nav />
+            <Nav admin={props.admin}/>
             
             <div style={{display: newsId ? "" : "none"}}>
                 <div className="news-with-id-container">
@@ -73,7 +104,13 @@ export default function News() {
                 </div>
             </div>
             
-            <div style={{display: !newsId ? "" : "none"}}>hello</div>
+            <div 
+                className="all-news-container"
+                style={{display: !newsId ? "" : "none"}}>
+                    <div className="all-news">
+                        {allNewsCards}
+                    </div>
+            </div>
 
             <Footer />
         </>

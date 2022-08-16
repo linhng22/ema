@@ -1,5 +1,5 @@
 import React from "react";
-import DOMPurify from "dompurify"
+import DOMPurify from "dompurify";
 
 export default function News(props){
     const content = props.content.split('\n');
@@ -7,9 +7,16 @@ export default function News(props){
 
     return(
         <div className="news-card">
-            <div><a href={`/news/${props.id}`} className="link">{props.title}</a></div>
-            <p className="news-card-time">Cập nhật: {props.time}</p>
-            <div className="news-card-content" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(firstSentence)}}></div>
+            <div>
+                <a href={`/news/${props.id}`} className="link">{props.title}</a>
+            </div>
+            <p className="news-card-time">
+                Cập nhật: {props.time}
+            </p>
+            <div 
+                className="news-card-content" 
+                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(firstSentence)}}>
+            </div>
             <hr/>
         </div>
     )

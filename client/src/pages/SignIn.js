@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Nav from '../components/Nav';
+import Footer from "../components/Footer";
 import "../css/sign-in.css";
 import congrat from "../images/congrat.png";
 import sad from "../images/sad.png"
 
+axios.defaults.withCredentials = true;
+
 export default function SignIn(props) {
-    console.log(props.admin)
     const[signedIn, setSignedIn] = useState(props.admin);
-    const[text, setText] = useState(null);
+    const[text, setText] = useState("Bạn đã đăng nhập thành công!");
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const[popup, setPopup] = useState(false);
 
-    axios.get("http://localhost:8000/sign-in").then(res =>{
-        console.log(res.data)
-    })
+    useEffect(() => {
+        setSignedIn(props.admin);
+    },[props.admin]);
+    console.log(signedIn);
 
     function moveLabelUp(event) {
         event.target.classList.add("active")
@@ -49,7 +51,7 @@ export default function SignIn(props) {
             } else {
                 setText("Đăng nhập không thành công!");
             }
-            setPopup(true);
+            // setPopup(true);
         })
         .catch(err => {
             console.log(err);
@@ -68,9 +70,9 @@ export default function SignIn(props) {
 
     return (
         <>
-            <Nav />
+            <Nav admin={props.admin} />
             <div className="sign-in">
-                <div className="sign-in--box" style={{display: popup ? "none" : ""}}>
+                <div className="sign-in--box" style={{display: signedIn ? "none" : ""}}>
                     <div className="forms-wrap">
                         <form autoComplete="off" className="sign-in--form">
                             <div className="heading">
@@ -117,7 +119,7 @@ export default function SignIn(props) {
                         </form>
                     </div>
                 </div>
-                <div className="pop-up message" style={{display: popup ? "" : "none"}}>
+                <div className="pop-up message" style={{display: signedIn ? "" : "none"}}>
                     <img src={signedIn ? congrat : sad} alt="congratulation icon" className="big-icon"/>
                     <h2>{text}</h2>
                     <button
@@ -128,17 +130,18 @@ export default function SignIn(props) {
                     <button
                         className="again"
                         style={{display: signedIn ? "none" : ""}}
-                        onClick={() => setPopup(false)}>
+                        onClick={() => setSignedIn(false)}>
                             Thử lại
                     </button>
                     <button
                         className="again"
-                        style={{display: signedIn && text ? "" : "none"}}
+                        style={{display: signedIn ? "" : "none"}}
                         onClick={signOut}>
                             Đăng xuất
                     </button>
                 </div>
             </div>
+            <Footer/>
         </>
         
     )

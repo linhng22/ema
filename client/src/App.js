@@ -10,10 +10,19 @@ import CreateTest from "./pages/Create-Test"
 import CreateNews from "./pages/Create-News"
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import { useState } from 'react';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 function App() {
-  const [admin, setAdmin] = useState(false);
-  
+  const [admin, setAdmin] = useState(null);
+
+  if (!admin){
+    axios.get("http://localhost:8000/starting").then(res => {
+      setAdmin(res.data.isAdmin);
+    })
+  }
+
   return (
     <div className="App">
       <Router>

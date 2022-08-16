@@ -55,3 +55,41 @@
     text-align:initial;
     padding-left: 10px;
 }
+
+
+.all-news-container{
+    width: 65%;
+    margin: 30px auto;
+}
+
+.all-news > *{
+    text-align: left;
+}
+
+.all-news.link{
+    font-size: 24px;
+}
+
+.all-news.news-card-time{
+    font-size: 15px;
+    color: #808080;
+}
+
+.all-news.news-card-content > * {
+    font-size: large;
+}
+
+.more-btn{
+    background: #95e1d3;
+    font-size: 15px;
+    text-align: center;
+}
+
+.more{
+    text-align: center;
+}
+
+.more-btn:hover{
+    box-shadow: 0 6px 4px -3px #ccc;
+    transition: box-shadow 0.2s;
+}

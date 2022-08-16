@@ -13,7 +13,6 @@ var text3 = "Trang bị toàn bộ 4 kỹ năng Nghe - Nói - Đọc - Viết";
 var loaded = false;
 
 export default function Home(props) {
-    console.log(props.admin)
     const [newsData, setNewsData] = useState([]);
     const [image, setImage] = useState(image1);
     const [text, setText] = useState(text1);
@@ -76,7 +75,7 @@ export default function Home(props) {
 
     return (
         <>
-            <Nav />
+            <Nav admin={props.admin}/>
             <div className="home">
                 <div className="slides">
                     <div className="images-wrapper">

@@ -7,7 +7,7 @@ import confirmIcon from "../images/confirm.png"
 import congrat from "../images/congrat.png"
 var loaded = false;
 
-export default function CreateTest() {
+export default function CreateTest(props) {
     const [newsData, setNewsData] = useState([]);
     const [news, setNews] = useState({
         id: 0,
@@ -79,7 +79,7 @@ export default function CreateTest() {
     
     return (
         <>
-            <Nav />
+            <Nav admin={props.admin}/>
             <div 
                 className="news-container" 
                 style={{opacity: confirmation ? "0.1" : "1", 

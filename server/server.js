@@ -9,14 +9,21 @@ app.use(session({
     name: "ema",
     secret: "ema-English Ms An",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }));
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
+
+app.get("/starting", (req, res) => {
+    if (req.session.isAdmin){
+        res.send({isAdmin: true});
+    } else {
+        res.send({isAdmin: false});
+    }
+})
 
 // Send news data to the home page
 app.get('/', (req, res) => {
-    console.log(req.session)
     // send the news data to the client side
     let rawNewsData = fs.readFileSync('news.json');
     let news = JSON.parse(rawNewsData);
@@ -45,17 +52,8 @@ app.get('/create-news', (req, res) => {
     }
 })
 
-app.get('/sign-in', (req, res) => {
-    console.log(req.session)
-    if (req.session.isAdmin){
-        res.send({adminSignedIn: true});
-    } else {
-        res.send({adminSignedIn: false});
-    }
-})
-
 app.get('/sign-out', (req, res) => {
-    if (req.session) {
+    if (req.session.isAdmin) {
         req.session.destroy(function (error) {
             if (error) {
                 res.status(400).send("Unable to log out");
@@ -96,17 +94,15 @@ app.post('/create-news', (req, res) => {
 })
 
 app.post('/sign-in', (req, res) => {
-    console.log(req.session)
     let userName = req.body[0];
     let password = req.body[1];
     if (userName.toLowerCase() === process.env.EMA_USER_NAME.toLowerCase() 
         && password.toLowerCase() === process.env.EMA_PASSWORD.toLowerCase()) {
             console.log("user name and password are matched");
             req.session.isAdmin = true;
-            // req.session.save(function (err) {
-            //     //session saved
-            // });
-            console.log(req.session);
+            req.session.save(function (err) {
+                //session saved
+            });
             
             res.send({
                 success: true,
