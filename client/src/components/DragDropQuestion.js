@@ -1,6 +1,8 @@
 import React, {useState} from "react"
 import { useDrop } from "react-dnd"
 import { ItemTypes } from "./DragDropConstants";
+import correct from "../audios/correct.wav"
+import wrong from "../audios/wrong.ogg"
 
 export default function DragDropQuestion(props) {
     const [box, setBox] = useState({
@@ -24,9 +26,10 @@ export default function DragDropQuestion(props) {
             const answerList = newAnswerData.filter((item) => input.id === parseInt(item.id));
             //Pass the id of the first object to the function
             //We need to pass 1 ID because each question has only one correct answer
-            props.onDrop(answerList[0].id)
+            props.onDrop(answerList[0].id);
+            new Audio(correct).play();
         } else {
-            
+            new Audio(wrong).play();
         }
     }
     

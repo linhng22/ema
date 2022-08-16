@@ -4,13 +4,30 @@ import happyFace2 from "../images/happy2.png"
 import sadFace2 from "../images/sad2.png"
 import normalFace2 from "../images/normal2.png"
 import congrat from "../images/congrat.png"
+import muteIcon from "../images/mute.png"
+import unmuteIcon from "../images/unmute.png"
+import backgroundAudio from "../audios/Iceland Theme.mp3"
+import pop from "../audios/wrong.ogg"
+import complete from "../audios/complete.wav"
 
+const audio = new Audio(backgroundAudio);
+audio.volume = 0.2;
+audio.loop = true;
 
 export default function Timer(props) {
     const [time, setTime] = useState(props.maxTime);
     const [timerOn, setTimerOn] = useState(true);
     const [score, setScore] = useState(0);
     const [face, setFace] = useState(normalFace2);
+    const [mute, setMute] = useState(true);
+    
+    useEffect(() => {
+        if (!mute){
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    }, [mute]);
 
     // Update the max time after getting data from backend
     useEffect(() => {
@@ -36,7 +53,8 @@ export default function Timer(props) {
     useEffect(() => {
         if (props.finished) {
             setTimerOn(false);
-            setScore((time/props.maxTime).toFixed(2) * 100);
+            setScore(((time/props.maxTime) * 100).toFixed(2));
+            new Audio(complete).play();
         }
     }, [props.finished]);
 
@@ -60,7 +78,7 @@ export default function Timer(props) {
                     src={guide} 
                     alt="guide icon"
                     className="icon guide"
-                    onClick={() => props.displayGuide()}/>
+                    onClick={() => {props.displayGuide(); new Audio(pop).play()}}/>
                 <p>Hướng dẫn</p>
                 <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
                 <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
@@ -73,6 +91,13 @@ export default function Timer(props) {
                 <div 
                     className="progress-bar" 
                     style={{width: `${(time / props.maxTime) * 98}%`}}>
+                </div>
+                <br/>
+                <div>
+                    <img 
+                        src={mute ? muteIcon : unmuteIcon} 
+                        style={{width: "35px", cursor: "pointer"}}
+                        onClick={() => {const newRequest = !mute; setMute(newRequest)}}/>
                 </div>                
             </div>
 

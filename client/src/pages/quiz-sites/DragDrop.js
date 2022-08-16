@@ -9,6 +9,7 @@ import {HTML5Backend} from "react-dnd-html5-backend"
 import timeOutIcon from "../../images/time-out.png"
 import guideIcon from "../../images/info.png"
 import sadFace2 from "../../images/sad2.png"
+import pop from "../../audios/wrong.ogg"
 var loaded = false;
 
 export default function DragDrop() {
@@ -115,7 +116,9 @@ export default function DragDrop() {
                         <img src={guideIcon} alt="guide icon" className="big-icon"/>
                         <h2 style={{color: "white"}}>Hướng dẫn</h2>
                         <p style={{color: "white"}}>Kéo đáp án vào đúng vị trí tương ứng với câu hỏi trong thời gian quy định.</p>
-                        <button onClick={() => setGuideBox(false)} className="guide btn">Đóng</button>
+                        <button 
+                            onClick={() => setGuideBox(false)} 
+                            className="guide btn">Đóng</button>
                 </div>
 
                 <div 

@@ -7,7 +7,15 @@ import happyFace from "../../images/happy.png"
 import sadFace from "../../images/sad.png"
 import normalFace from "../../images/normal.png"
 import congrat from "../../images/congrat.png"
+import muteIcon from "../../images/mute.png"
+import unmuteIcon from "../../images/unmute.png"
 import "../../css/fill-in.css"
+import audioIntro from "../../audios/Mushroom Theme.mp3"
+import pop from "../../audios/wrong.ogg"
+
+const audio = new Audio(audioIntro);
+audio.volume = 0.5;
+audio.loop = true;
 
 export default function FillIn() {
     const [speed, setSpeed] = useState(2);
@@ -17,6 +25,15 @@ export default function FillIn() {
     const [finished, setFinished] = useState(false);
     const [score, setScore] = useState(0);
     const [face, setFace] = useState(normalFace);
+    const [mute, setMute] = useState(true);
+    
+    useEffect(() => {
+        if (!mute){
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    }, [mute]);
 
     // Update speed so that the character could change its move
     function updateSpeed(num) {
@@ -61,8 +78,13 @@ export default function FillIn() {
                             src={guide} 
                             alt="guide icon"
                             className="icon guide"
-                            onClick={() => displayGuide()}/>
+                            onClick={() => {displayGuide(); new Audio(pop).play()}}/>
                         <p>Hướng dẫn</p>
+                        <br/>
+                        <img 
+                            src={mute ? muteIcon : unmuteIcon} 
+                            style={{width: "35px", cursor: "pointer"}}
+                            onClick={() => {const newRequest = !mute; setMute(newRequest)}}/>
                         
                         <div className="fill-in-form">
                             <FillInQuestion 

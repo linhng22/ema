@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from "react";
 import FillInProgressBar from "./FillInProgressBar"
 import axios from "axios";
-import nextIcon from "../images/next.png"
+import nextIcon from "../images/next.png";
+import correctAudio from "../audios/correct.wav";
+import completeAudio from "../audios/complete.wav"
+
 var loaded = false;
 var hint1 = 'Nếu chưa chắc chắn về câu trả lời, đừng nhấn "Enter" hay dấu mũi tên nhé!';
 var hint2 = 'Chính xác! Nhấn "Enter" hoặc dấu mũi tên nhé!';
 var hint3 = 'Chưa đúng rồi! Cố lên!';
+
 export default function FillInQuestion(props) {
     const [questionData, setQuestionData] = useState({
         maxTime: -1,
@@ -70,6 +74,7 @@ export default function FillInQuestion(props) {
         if (e.which !== 13) {
             setHint(hint3);
             if (userAnswer === answerData[index].answer.toLowerCase()) {
+                new Audio(correctAudio).play();
                 // Increase speed by 2
                 props.changeSpeed(2);
                 // Update hint
@@ -89,6 +94,7 @@ export default function FillInQuestion(props) {
             else {
                 props.finishQuiz(true);
                 props.updateScore(Math.floor(score / questionData.questions.length * 100));
+                new Audio(completeAudio).play();
             };
         }
     }
@@ -106,6 +112,7 @@ export default function FillInQuestion(props) {
         } else {
             props.finishQuiz(true);
             props.updateScore(score);
+            new Audio(completeAudio).play();
         }
     }
     

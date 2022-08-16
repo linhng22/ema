@@ -22,6 +22,7 @@ body, input, button {
     margin: 0 auto;
     display: flex;
     justify-content: space-evenly;
+    height: 40px;
 }
 
 .nav--links > a {
