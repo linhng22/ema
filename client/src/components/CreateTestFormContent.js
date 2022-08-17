@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-var questionList = []
-var answerList = []
+
+var questionList = [];
+var answerList = [];
+
 export default function CreateTestFormContent(props) {
     const [questionArray, setquestionArray] = useState({
         id: 0,
@@ -58,23 +60,25 @@ export default function CreateTestFormContent(props) {
         const currentElement = document.getElementById(e.target.id);
         const parent = currentElement.parentElement.parentElement;
         parent.style.backgroundColor="#fff";
-        parent.style.transition="background-color 0.5s"
+        parent.style.transition="background-color 0.5s";
     }
     
+    // Update the question list
     useEffect(() => {
         if (questionArray.id > 0) {
             questionList[questionArray.id - 1] = questionArray;
         }
-    }, [questionArray])
+    }, [questionArray]);
 
+    // Update the answer list
     useEffect(() => {
         if (answerArray.id > 0) {
             answerList[answerArray.id - 1] = answerArray;
         }
-    }, [answerArray])
+    }, [answerArray]);
 
-    // Update question list and answer list
-    props.updateData({questionList, answerList})
+    // Pass question list and answer list to the parent component
+    props.updateData({questionList, answerList});
     
     return (
         <div className="form-content-box">

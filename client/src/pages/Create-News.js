@@ -19,10 +19,12 @@ export default function CreateTest(props) {
     const [confirmation, setConfirmation] = useState(false);
     const [displayMessage, setDisplayMessage] = useState(false);
     const editorRef = useRef(null);
+
     // Update the content of the news post
     const log = () => {
         if (editorRef.current) {
             const time = new Date();
+            // Update the news from user's input
             setNews( 
                 {
                     id : (newsData.length) ? newsData.length + 1 : 1,
@@ -88,7 +90,10 @@ export default function CreateTest(props) {
 
                 <div className="news-form">
                     <div className="news-header">
-                        <label><b>Tiêu đề bài đăng</b><span className="highlight">*</span> :</label>
+                        <label>
+                            <b>Tiêu đề bài đăng</b>
+                            <span className="highlight">*</span> :
+                        </label>
                         <input 
                             type="text"
                             minLength={4}
@@ -134,28 +139,30 @@ export default function CreateTest(props) {
                 className="confirmation pop-up"
                 id="confirmation"
                 style={{display: (confirmation) ? "" : "none"}}>
-                <img 
-                    src={confirmIcon} 
-                    alt="confirmation icon"
-                    className="big-icon"/>
-                <h3>Bạn chắc chắn muốn tạo bài đăng tin tức bây giờ?</h3>
-                <button
-                    className="cancel"
-                    onClick={() => setConfirmation(false)}>
-                        Kiểm tra lại
-                </button>
-                <button
-                    className="create"
-                    onClick={handleSubmit}>
-                        Tạo ngay
-                </button>
+                    <img 
+                        src={confirmIcon} 
+                        alt="confirmation icon"
+                        className="big-icon"/>
+                    <h3>Bạn chắc chắn muốn tạo bài đăng tin tức bây giờ?</h3>
+                    <button
+                        className="cancel"
+                        onClick={() => setConfirmation(false)}>
+                            Kiểm tra lại
+                    </button>
+                    <button
+                        className="create"
+                        onClick={handleSubmit}>
+                            Tạo ngay
+                    </button>
             </div>
 
             <div
                 className="pop-up"
-                style={{display: (displayMessage) ? "" : "none", backgroundColor: "#aef5c6"}}
-                >
-                    <img src={congrat} alt="congratulation icon" className="big-icon"/>
+                style={{display: (displayMessage) ? "" : "none", backgroundColor: "#aef5c6"}}>
+                    <img 
+                        src={congrat} 
+                        alt="congratulation icon" 
+                        className="big-icon"/>
                     <h2>Hoàn thành</h2>
                     
                     <p>Chúc mừng!<br/>Bài đăng của bạn đã được tạo thành công!</p>

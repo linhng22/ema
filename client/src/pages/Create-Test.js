@@ -8,7 +8,7 @@ import confirmIcon from "../images/confirm.png"
 var warning1="Chỉ nhập chữ số!";
 
 export default function CreateTest(props) {
-    const [num, setNum] = useState(2);
+    const [num, setNum] = useState(2); // the number of questions
     const [questionData, setQuestionData] = useState({
         maxTime : 5,
         questions: []
@@ -19,14 +19,14 @@ export default function CreateTest(props) {
     const [warning, setWarning] = useState(null);
     const [confirmation, setConfirmation] = useState(false);
 
-    // Display a certain number of question and answer rows
+    // Display a certain number of question and answer rows based on user's input for "num"
     let rowArray = []
     for (let i = 0; i < num; i++) {
         rowArray.push(
-        <FormContent 
-            key={`questionSet${i}`} 
-            id={i+1} 
-            updateData = {newData => updateData(newData) }/>);
+            <FormContent 
+                key={`questionSet${i}`} 
+                id={i+1} 
+                updateData = {newData => updateData(newData) }/>);
     }
     const rowElements = rowArray.map(row => row)
     
@@ -42,6 +42,7 @@ export default function CreateTest(props) {
         }, 0)
     }
 
+    // Update data for the number of questions, the amount of time and the list of wrong answers
     function handleChange(e) {
         setWarning(null);
         // Set the number of questions according to the user's input if it contains only numbers
@@ -113,6 +114,7 @@ export default function CreateTest(props) {
                 questions: questionData.questions
             },
             answerData];
+        // Send data to the server to be saved
         axios.post("http://localhost:8000/create-test", dataToSend ).then((res) => {
             console.log(res);
             alert("Đề kiểm tra ngắn đã được tạo thành công!");

@@ -66,17 +66,18 @@ export default function FillInQuestion(props) {
     }
     
     function checkAnswer(e) {
-
         // Find the index of the correct answer in the answerData
         const index = answerData.findIndex((answer) => answer.id === questionNum);
 
         let userAnswer = e.target.value.trim().toLowerCase();
+        // Check the answer when user enters input that does not contain "Enter" key
         if (e.which !== 13) {
             setHint(hint3);
             if (userAnswer === answerData[index].answer.toLowerCase()) {
+                // Play the sound effect when user's answer is correct
                 new Audio(correctAudio).play();
-                // Increase speed by 2
-                props.changeSpeed(2);
+                // Increase speed by 1
+                props.changeSpeed(1);
                 // Update hint
                 setHint(hint2);
                 //Increase the score by 1 only once
@@ -87,13 +88,20 @@ export default function FillInQuestion(props) {
                 }
             }
         } else {
+            // When user presses "Enter" key and has not reached the final question
             if (questionNum < questionData.questions.length) {
+                // Move onto next question 
                 goToNextQuestion();
+                // Pass the updateScore property to the parent component
                 props.updateScore(Math.floor(score / questionData.questions.length * 100));
             }
+            // When user presses "Enter" key and has reached the final question
             else {
+                // Send finishQuiz property as true to the parent component
                 props.finishQuiz(true);
+                // Pass new score to the parent component
                 props.updateScore(Math.floor(score / questionData.questions.length * 100));
+                // Play sound effect when user completes the quiz
                 new Audio(completeAudio).play();
             };
         }
@@ -107,7 +115,7 @@ export default function FillInQuestion(props) {
             setCorrect(false);
             const nextQuestionNum = questionNum + 1;
             setQuestionNum(nextQuestionNum);
-            // Set value in input as none
+            // Set value in input as none so that the input is not automatically filled when user moves to next question
             document.querySelector(".fill-in-answer").value = "";
         } else {
             props.finishQuiz(true);

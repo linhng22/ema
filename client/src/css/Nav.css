@@ -31,5 +31,5 @@ body, input, button {
     font-weight: 800;
     font-size: 20px;
     cursor: pointer;
-    margin-bottom: 5px;
+    padding: 5px;
 }

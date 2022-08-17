@@ -5,7 +5,6 @@ import DOMPurify from "dompurify";
 import Nav from '../components/Nav';
 import Footer from "../components/Footer";
 import "../css/news.css";
-import banner from "../images/banner.png"
 var loaded = false;
 
 export default function News(props) {
@@ -21,8 +20,8 @@ export default function News(props) {
     let params = useParams();
     const newsId = params.newsId; // get the news ID from url params
 
+    // Get news from the server
     if (!loaded){
-        // Get news from the server
         axios.get("http://localhost:8000/").then(response => {
             // Save all news to allNews variable. All news will be displayed on "Bảng tin" page
             setAllNews(response.data);
@@ -98,7 +97,8 @@ export default function News(props) {
                         <p className="news-box-time">Cập nhật: {newsWithId.time}</p>
                         <div 
                             className="news-box-content" 
-                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(newsWithId.content)}}></div>
+                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(newsWithId.content)}}>    
+                        </div>
                     </div>
                     
                 </div>

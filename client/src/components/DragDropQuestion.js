@@ -1,8 +1,8 @@
-import React, {useState} from "react"
-import { useDrop } from "react-dnd"
+import React, {useState} from "react";
+import { useDrop } from "react-dnd";
 import { ItemTypes } from "./DragDropConstants";
-import correct from "../audios/correct.wav"
-import wrong from "../audios/wrong.ogg"
+import correct from "../audios/correct.wav";
+import wrong from "../audios/wrong.ogg";
 
 export default function DragDropQuestion(props) {
     const [box, setBox] = useState({
@@ -13,13 +13,14 @@ export default function DragDropQuestion(props) {
     const [newAnswerData, setNewAnswerData] = useState(props.answerData);
 
     const [{isOver}, drop] = useDrop({
-        accept: ItemTypes.ANSWER,
-        drop: (item) => check(item),
+        accept: ItemTypes.ANSWER, //Type of data items the drop-target accepts
+        drop: (item) => check(item), //Gets the drag source and calls the check() function
         collect: monitor => ({
             isOver: !!monitor.isOver(),
-        })
+        }) 
     })
     
+    // Check if the id of the draggable item matches the id of the drop target
     function check(input){
         if (input.id === props.id) {
             setBox({answer: input.value, matched: true});

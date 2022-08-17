@@ -1,14 +1,19 @@
-import React from "react"
-import {useDrag} from "react-dnd"
-import {ItemTypes} from "./DragDropConstants"
+/**
+ * I learned about Drag and Drop in React from this tutorial
+ * https://react-dnd.github.io/react-dnd/docs/tutorial
+ */
+
+import React from "react";
+import {useDrag} from "react-dnd";
+import {ItemTypes} from "./DragDropConstants";
 
 export default function DragDropAnswer(props) {
     const [{isDragging}, drag] = useDrag({
-        type: ItemTypes.ANSWER,
-        item: {id: props.id, value: props.answer},
+        type: ItemTypes.ANSWER, //Type of draggable items
+        item: {id: props.id, value: props.answer}, //Object describing the data being dragged(information available to the drop targets)
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
-        }),
+        }), //return a plain object of the props to return for injection into your component
     });
 
     return (

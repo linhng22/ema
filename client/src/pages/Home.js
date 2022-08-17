@@ -7,6 +7,10 @@ import "../css/home.css";
 import image1 from "../images/image1.jpg";
 import image2 from "../images/image2.jpg";
 import image3 from "../images/image3.jpg";
+import phone from "../images/phone.png";
+import email from "../images/email.png";
+import address from "../images/address.png";
+
 var text1 = "Các lớp học dành cho mọi độ tuổi";
 var text2 = "Nội dung bám sát chương trình phổ thông, nhu cầu người học";
 var text3 = "Trang bị toàn bộ 4 kỹ năng Nghe - Nói - Đọc - Viết";
@@ -48,7 +52,7 @@ export default function Home(props) {
         )
     });
 
-    // Update the image and text when the set number changes
+    // Update the bullets, image and text when the set number changes
     useEffect(() => {
         // Change bullets
         const bullets = document.querySelectorAll(".bullets span");
@@ -66,6 +70,7 @@ export default function Home(props) {
         }
     }, [num]);
     
+    // Update new number after 5 seconds to change image and text accordingly
     setTimeout(() => {
         if (num < 3) {
             const newNum = num + 1;
@@ -103,9 +108,23 @@ export default function Home(props) {
                     
                     <div className="news-container">{newsData.length > 0 ? newsCards : ""}</div>
                 </div>
-                
-                <div className="contact">alo</div>
-                
+
+                <div className="contact-container">
+                    <h2 className="contact-header">Liên hệ</h2>
+                    <div>
+                        <h3 className="highlight">Thúy An</h3>
+                        <div className="contact-details">
+                            <img className="contact-icon" src={phone} alt="phone number"/>
+                            <span > 0936346468</span></div>
+                        <div className="contact-details">
+                            <img className="contact-icon" src={email} alt="email address"/>
+                            <span> thuyan120888@gmail.com</span></div>
+                        <div className="contact-details">
+                            <img className="contact-icon" src={address} alt="home address"/>
+                            <span> Ngách 59/20, Ngõ 59, đường Mễ Trì, quận Nam Từ Liêm, Hà Nội</span></div>
+                    </div>
+                </div>
+                                
             </div>
 
             <Footer />

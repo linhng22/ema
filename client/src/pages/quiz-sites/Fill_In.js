@@ -27,6 +27,7 @@ export default function FillIn() {
     const [face, setFace] = useState(normalFace);
     const [mute, setMute] = useState(true);
     
+    // Play or pause the background music when user clicks on sound button (which changes the state of "mute")
     useEffect(() => {
         if (!mute){
             audio.play();
@@ -72,8 +73,14 @@ export default function FillIn() {
                 className="canvas-box" 
                 style={{display: (timeOutBox || finished) ? "none" : ""}}>
                     <div className="guide-box">
-                        <button className="backToQuiz fill-in" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
-                        <button className="again fill-in" onClick={() => window.location.reload()}>Làm lại</button>
+                        <button 
+                            className="backToQuiz fill-in" 
+                            onClick={() => window.location.replace("/quiz")} >
+                                Về trang Quiz</button>
+                        <button 
+                            className="again fill-in" 
+                            onClick={() => window.location.reload()}>
+                                Làm lại</button>
                         <img 
                             src={guide} 
                             alt="guide icon"
@@ -83,6 +90,7 @@ export default function FillIn() {
                         <br/>
                         <img 
                             src={mute ? muteIcon : unmuteIcon} 
+                            alt="mute or unmute"
                             style={{width: "35px", cursor: "pointer"}}
                             onClick={() => {const newRequest = !mute; setMute(newRequest)}}/>
                         
@@ -140,7 +148,10 @@ export default function FillIn() {
                 className="finished pop-up"
                 style={{display: (finished || (timeOutBox && score > 0)) ? "" : "none"}}
                 >
-                    <img src={congrat} alt="congratulation icon" className="big-icon"/>
+                    <img 
+                        src={congrat} 
+                        alt="congratulation icon" 
+                        className="big-icon"/>
                     <h2>Hoàn thành</h2>
                     <img 
                         src={face} 

@@ -12,7 +12,7 @@ import complete from "../audios/complete.wav"
 
 const audio = new Audio(backgroundAudio);
 audio.volume = 0.2;
-audio.loop = true;
+audio.loop = true; // Make the audio autoplay
 
 export default function Timer(props) {
     const [time, setTime] = useState(props.maxTime);
@@ -21,6 +21,7 @@ export default function Timer(props) {
     const [face, setFace] = useState(normalFace2);
     const [mute, setMute] = useState(true);
     
+    // Play or pause the music when user clicks on sound button
     useEffect(() => {
         if (!mute){
             audio.play();
@@ -58,6 +59,7 @@ export default function Timer(props) {
         }
     }, [props.finished]);
 
+    // Update the character's face according to the user's score
     useEffect(() => {
         if (score >= 80) {
             setFace(happyFace2);
@@ -68,8 +70,6 @@ export default function Timer(props) {
         }
     }, [score]);
 
-
-
     return (
         <>
             <div className="guide-box"
@@ -78,7 +78,10 @@ export default function Timer(props) {
                     src={guide} 
                     alt="guide icon"
                     className="icon guide"
-                    onClick={() => {props.displayGuide(); new Audio(pop).play()}}/>
+                    onClick={() => {
+                        // Display the guide box and play the sound effect
+                        props.displayGuide(); 
+                        new Audio(pop).play()}}/>
                 <p>Hướng dẫn</p>
                 <button className="backToQuiz" onClick={() => window.location.replace("/quiz")} >Về trang Quiz</button>
                 <button className="again" onClick={() => window.location.reload()}>Làm lại</button>
@@ -96,8 +99,12 @@ export default function Timer(props) {
                 <div>
                     <img 
                         src={mute ? muteIcon : unmuteIcon} 
+                        alt="mute or unmute"
                         style={{width: "35px", cursor: "pointer"}}
-                        onClick={() => {const newRequest = !mute; setMute(newRequest)}}/>
+                        onClick={() => {
+                            // Mute or unmute the background music when user clicks on the sound button
+                            const newRequest = !mute; 
+                            setMute(newRequest)}}/>
                 </div>                
             </div>
 

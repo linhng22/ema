@@ -9,7 +9,6 @@ import {HTML5Backend} from "react-dnd-html5-backend"
 import timeOutIcon from "../../images/time-out.png"
 import guideIcon from "../../images/info.png"
 import sadFace2 from "../../images/sad2.png"
-import pop from "../../audios/wrong.ogg"
 var loaded = false;
 
 export default function DragDrop() {
@@ -89,18 +88,24 @@ export default function DragDrop() {
         <div className="drag-drop"
             style={{backgroundColor: (finished || timeOut) ? "#95e1d3" : "white"}}>
             <DndProvider backend={HTML5Backend}>
-                <div className="questions" style={{display: (finished || timeOut) ? "none" : "", opacity: (guideBox) ? "0.2" : "1"}}>
-                    <h2>Questions</h2>
-                    <div className="question-box">
-                        {questionCards}
-                    </div>
+                <div 
+                    className="questions" 
+                    style={{display: (finished || timeOut) ? "none" : "", 
+                            opacity: (guideBox) ? "0.2" : "1"}}>
+                        <h2>Questions</h2>
+                        <div className="question-box">
+                            {questionCards}
+                        </div>
                 </div>
 
-                <div className="answers" style={{display: (finished || timeOut) ? "none" : "", opacity: (guideBox) ? "0.2" : "1"}}>
-                    <h2>Answers</h2>
-                    <div className="answer-box">
-                        {answerCards}
-                    </div>
+                <div 
+                    className="answers" 
+                    style={{display: (finished || timeOut) ? "none" : "", 
+                            opacity: (guideBox) ? "0.2" : "1"}}>
+                        <h2>Answers</h2>
+                        <div className="answer-box">
+                            {answerCards}
+                        </div>
                 </div>
 
                 <TimerAndResult 
@@ -115,7 +120,9 @@ export default function DragDrop() {
                     style={{display: guideBox ? "" : "none"}}>
                         <img src={guideIcon} alt="guide icon" className="big-icon"/>
                         <h2 style={{color: "white"}}>Hướng dẫn</h2>
-                        <p style={{color: "white"}}>Kéo đáp án vào đúng vị trí tương ứng với câu hỏi trong thời gian quy định.</p>
+                        <p style={{color: "white"}}>
+                            Kéo đáp án vào đúng vị trí tương ứng với câu hỏi trong thời gian quy định.
+                        </p>
                         <button 
                             onClick={() => setGuideBox(false)} 
                             className="guide btn">Đóng</button>
@@ -124,9 +131,15 @@ export default function DragDrop() {
                 <div 
                     className="out-of-time-box pop-up" 
                     style={{display: (timeOut) ? "" : "none"}}>
-                        <img className="big-icon" src={timeOutIcon} alt="out of time"/>
+                        <img 
+                            className="big-icon" 
+                            src={timeOutIcon} 
+                            alt="out of time"/>
                         <h2>Hết giờ!</h2>
-                        <img src={sadFace2} alt="sad face" className="sad dragDrop face" />
+                        <img 
+                            src={sadFace2} 
+                            alt="sad face" 
+                            className="sad dragDrop face" />
                         <button
                             className="backToQuiz"
                             onClick={() => window.location.replace("/quiz")}>

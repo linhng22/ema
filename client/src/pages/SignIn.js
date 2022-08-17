@@ -14,20 +14,23 @@ export default function SignIn(props) {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
 
+    // Update "signedIn" as true if user has signed in as admin and vice versa
     useEffect(() => {
         setSignedIn(props.admin);
     },[props.admin]);
-    console.log(signedIn);
 
+    // Moves the label up when user is inputting
     function moveLabelUp(event) {
         event.target.classList.add("active")
     }
 
+    // Moves the label down when user is not inputting
     function moveLabelDown(event) {
         if (event.target.value !== "") return;
         event.target.classList.remove("active")
     }
 
+    // Update user name and password when user is inputting
     function handleChange(e){
         if (e.target.id === "userName"){
             setUserName(e.target.value);
@@ -37,21 +40,22 @@ export default function SignIn(props) {
         }
     }
     
+    // Send data to the server for user authentication
     function handleSubmit(e){
         e.preventDefault();
         
         const dataToSend = [userName, password];
+        // Send "POST" request to the server
         axios.post("http://localhost:8000/sign-in", dataToSend).then((res) => {
             console.log(res);
             if (res.data.success){
+                // If authentication is sucessful, update "text" and "signedIn", and pass isAdmin property to the parent component
                 setText("Bạn đã đăng nhập thành công!");
                 setSignedIn(true);
                 props.isAdmin(true);
-                
             } else {
                 setText("Đăng nhập không thành công!");
             }
-            // setPopup(true);
         })
         .catch(err => {
             console.log(err);
@@ -59,6 +63,7 @@ export default function SignIn(props) {
         })
     }
     
+    // Send "GET" request to the server when admin user wants to sign out from website
     function signOut(){
         axios.get("http://localhost:8000/sign-out").then(response => {
             console.log(response);
@@ -143,6 +148,5 @@ export default function SignIn(props) {
             </div>
             <Footer/>
         </>
-        
     )
 }

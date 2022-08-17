@@ -4,9 +4,11 @@ import {Link} from "react-router-dom"
 import banner from "../images/banner.png"
 
 export default function Nav(props) {
+    // Display "create-news", "create-test" after user signs in as admin
+    // Change "Đăng nhập" (sign in) to "Đăng xuất" (sign out) after user signs in as admin 
     return (
         <nav className="nav">
-            <img src={banner} alt="banner image" className="banner-image"/>
+            <img src={banner} alt="banner" className="banner-image"/>
             <div className="nav--links">
                 <Link 
                     to="/" 

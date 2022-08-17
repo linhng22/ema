@@ -18,6 +18,7 @@ export default function Quiz(props) {
     const [rightInstruction, setRightInstruction] = useState(false);
     const [mute, setMute] = useState(true);
     
+    // Play or pause the background music when user clicks on sound button (which changes the "mute" state)
     useEffect(() => {
         if (!mute){
             audio.play();
@@ -38,7 +39,8 @@ export default function Quiz(props) {
                     <div className="quiz-header">
                         <h2>Cùng làm quiz thôi!</h2>
                         <img 
-                            src={mute ? muteIcon : unmuteIcon} 
+                            src={mute ? muteIcon : unmuteIcon}
+                            alt="sound" 
                             style={{width: "35px", cursor: "pointer"}}
                             onClick={() => {const newRequest = !mute; setMute(newRequest)}}/>
                     </div>

@@ -17,6 +17,7 @@ axios.defaults.withCredentials = true;
 function App() {
   const [admin, setAdmin] = useState(null);
 
+  // Send "Get" request to the server to know if user accessing website is regular or admin user.
   if (!admin){
     axios.get("http://localhost:8000/starting").then(res => {
       setAdmin(res.data.isAdmin);

@@ -2,7 +2,7 @@ import React from "react";
 import DOMPurify from "dompurify";
 
 export default function News(props){
-    const content = props.content.split('\n');
+    const content = props.content.split('. ');
     const firstSentence = content[0];
 
     return(

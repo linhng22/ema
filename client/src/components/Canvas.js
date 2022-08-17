@@ -1,6 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
-import sprite from "../images/dog_sprite.png"
-import background from "../images/game_background1.jpg"
+/**
+ * I learned about sprite animation and Parallax in JS games from this tutorial 
+ * https://www.youtube.com/watch?v=CY0HE277IBM&list=PLYElE_rzEw_uryBrrzu2E626MY4zoXvx2&ab_channel=Frankslaboratory 
+ * */ 
+
+import React, { useEffect, useRef, useState } from "react";
+import sprite from "../images/dog_sprite.png";
+import background from "../images/game_background1.jpg";
 
 const spriteWidth = 256.9;
 const spriteHeight = 256.875;
